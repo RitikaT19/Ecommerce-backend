@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from "express";
+import express, { Request, Response, NextFunction, request } from "express";
 import userController from "../controller/auth";
 const router = express.Router();
 
@@ -26,6 +26,34 @@ router.post(
       res.status(200).json({
         status: 200,
         message: "User registered successfully!",
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  "/login",
+  async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { email, password } = req.body;
+      if (!email || !password) {
+        throw {
+          statusCode: 400,
+          customMessage: "All parameters are required",
+        };
+      }
+
+      const result: any = await userController.login(req.body);
+      if (result.isError) {
+        throw result.error;
+      }
+
+      // will throw success code if process id successful
+      res.status(200).json({
+        statusCode: 200,
+        customMessage: "User successfully logged in!",
       });
     } catch (error) {
       next(error);

@@ -42,5 +42,28 @@ router.post("/sign_up", (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         next(error);
     }
 }));
+router.post("/login", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            throw {
+                statusCode: 400,
+                customMessage: "All parameters are required",
+            };
+        }
+        const result = yield auth_1.default.login(req.body);
+        if (result.isError) {
+            throw result.error;
+        }
+        // will throw success code if process id successful
+        res.status(200).json({
+            statusCode: 200,
+            customMessage: "User successfully logged in!",
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
 exports.default = router;
 //# sourceMappingURL=auth.js.map

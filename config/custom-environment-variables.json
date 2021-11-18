@@ -1,1 +1,3 @@
-{}
+{
+    "JWT_PRIVATE_KEY": "E_COMMERCE_PRIVATE_KEY"
+}

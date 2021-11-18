@@ -28,8 +28,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const get_jwt_1 = require("../helpers/get-jwt");
 const userRepository = __importStar(require("../repository/auth"));
-const bcrypt = require('bcrypt');
+const bcrypt = require("bcrypt");
 const registerUser = (userDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const existingEmail = yield userRepository.fetchUser(userDetails.email);
@@ -46,7 +47,7 @@ const registerUser = (userDetails) => __awaiter(void 0, void 0, void 0, function
             firstName,
             lastName,
             email,
-            password
+            password,
         });
         if (!result) {
             throw {
@@ -60,5 +61,39 @@ const registerUser = (userDetails) => __awaiter(void 0, void 0, void 0, function
         return { isError: true, error };
     }
 });
-exports.default = { registerUser };
+const login = (userDetails) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield userRepository.fetchUser(userDetails.email);
+        if (!result) {
+            throw {
+                statusCode: 400,
+                customMessage: "User not found!",
+            };
+        }
+        console.log(result, "result");
+        const comparePassword = yield bcrypt.compare(userDetails.password, result.password);
+        if (comparePassword) {
+            const token = get_jwt_1.getJWT({
+                _id: result._id,
+                firstName: result.firstName,
+                lastName: result.lastName,
+                email: result.email,
+                username: result.username,
+                role: result.role,
+            });
+            console.log(token, "token");
+            return { data: token };
+        }
+        else {
+            throw {
+                statusCode: 400,
+                customMessage: "Unauthorized login"
+            };
+        }
+    }
+    catch (error) {
+        return { isError: true, error };
+    }
+});
+exports.default = { registerUser, login };
 //# sourceMappingURL=auth.js.map
