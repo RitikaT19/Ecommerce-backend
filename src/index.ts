@@ -6,7 +6,8 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 import { createConnection } from "./db-init/dbConn";
 import cors from "cors";
-import auth from "./routes/auth"
+import auth from "./routes/auth";
+import admin from "./routes/admin";
 
 import logger, { httpLogger } from "./utils/logger";
 import error from "./middlewares/error";
@@ -31,10 +32,10 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 //defining a simple route
-app.get('/', (req, res)=> {
-    res.json({
-        "message": "Welcome"
-    });
+app.get("/", (req, res) => {
+  res.json({
+    message: "Welcome",
+  });
 });
 
 app.set("trust-proxy", 1);
@@ -55,11 +56,11 @@ morgan.token("remote-addr", (req: any) => {
   return req.header("X-Real-IP") || req.ip;
 });
 app.use(
- morgan("common", { stream: { write: (message) => httpLogger.http(message) } })
+  morgan("common", { stream: { write: (message) => httpLogger.http(message) } })
 );
 
- app.use("/api/auth",auth)
-// app.use("/api/career",career)
+app.use("/api/auth/user", auth);
+app.use("/api/auth/admin", admin);
 
 app.use(error);
 
@@ -72,7 +73,6 @@ if (process.env.NODE_ENV !== "test") {
   app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`);
   });
-  
 }
 
 export default app;

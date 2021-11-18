@@ -1,5 +1,5 @@
 import { getJWT } from "../helpers/get-jwt";
-import { IAddUser, IUserLogin } from "../interface/auth";
+import { IAddUser, IUserLogin } from "../interface/user";
 import * as userRepository from "../repository/auth";
 const bcrypt = require("bcrypt");
 

@@ -11,6 +11,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const dbConn_1 = require("./db-init/dbConn");
 const cors_1 = __importDefault(require("cors"));
 const auth_1 = __importDefault(require("./routes/auth"));
+const admin_1 = __importDefault(require("./routes/admin"));
 const logger_1 = require("./utils/logger");
 const error_1 = __importDefault(require("./middlewares/error"));
 // In case of production environment, disable console logs
@@ -27,9 +28,9 @@ const app = express_1.default();
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 //defining a simple route
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
     res.json({
-        "message": "Welcome"
+        message: "Welcome",
     });
 });
 app.set("trust-proxy", 1);
@@ -46,8 +47,8 @@ morgan_1.default.token("remote-addr", (req) => {
     return req.header("X-Real-IP") || req.ip;
 });
 app.use(morgan_1.default("common", { stream: { write: (message) => logger_1.httpLogger.http(message) } }));
-app.use("/api/auth", auth_1.default);
-// app.use("/api/career",career)
+app.use("/api/auth/user", auth_1.default);
+app.use("/api/auth/admin", admin_1.default);
 app.use(error_1.default);
 //Check if port exists in the environment else use 5000
 const port = process.env.PORT || 5000;

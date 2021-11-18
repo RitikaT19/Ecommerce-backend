@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userAdded = exports.fetchUser = void 0;
+exports.adminAdded = exports.fetchAdmin = void 0;
 const user_1 = require("../db-init/model/user");
-exports.fetchUser = (email) => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchAdmin = (email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let result = yield user_1.User.findOne({ email: email });
         return result;
@@ -20,14 +20,15 @@ exports.fetchUser = (email) => __awaiter(void 0, void 0, void 0, function* () {
         return false;
     }
 });
-exports.userAdded = (userDetails) => __awaiter(void 0, void 0, void 0, function* () {
+exports.adminAdded = (adminDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield user_1.User.create({
-            firstName: userDetails.firstName,
-            lastName: userDetails.lastName,
+            firstName: adminDetails.firstName,
+            lastName: adminDetails.lastName,
             username: Math.random().toString(),
-            email: userDetails.email,
-            password: userDetails.password,
+            email: adminDetails.email,
+            password: adminDetails.password,
+            role: "admin"
         });
         return true;
     }
@@ -35,4 +36,4 @@ exports.userAdded = (userDetails) => __awaiter(void 0, void 0, void 0, function*
         console.log(error);
     }
 });
-//# sourceMappingURL=auth.js.map
+//# sourceMappingURL=admin.js.map
