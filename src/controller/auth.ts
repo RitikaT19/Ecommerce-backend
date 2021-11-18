@@ -39,7 +39,9 @@ const registerUser = async (userDetails: IAddUser) => {
 
 const login = async (userDetails: IUserLogin) => {
   try {
+    // calling user repository to fetch user detail
     const result: any = await userRepository.fetchUser(userDetails.email);
+    // if user with the given email id not available, throw error
     if (!result) {
       throw {
         statusCode: 400,
@@ -47,12 +49,12 @@ const login = async (userDetails: IUserLogin) => {
       };
     }
 
-    console.log(result, "result");
-
+    // comparing password provided by the user and password stored in the db
     const comparePassword = await bcrypt.compare(
       userDetails.password,
       result.password
     );
+    // if password are same, then generate token
     if (comparePassword) {
       const token = getJWT({
         _id: result._id,
@@ -62,15 +64,16 @@ const login = async (userDetails: IUserLogin) => {
         username: result.username,
         role: result.role,
       });
-      console.log(token,"token")
-      return{data: token}
-    } else {
-      throw{
+
+      return { result: result.data, data: token };
+    } 
+    // else throw error
+    else {
+      throw {
         statusCode: 400,
-        customMessage: "Unauthorized login"
-      }
+        customMessage: "Unauthorized login",
+      };
     }
-  
   } catch (error) {
     return { isError: true, error };
   }

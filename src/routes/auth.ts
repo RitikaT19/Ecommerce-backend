@@ -54,6 +54,7 @@ router.post(
       res.status(200).json({
         statusCode: 200,
         customMessage: "User successfully logged in!",
+        result: result.data
       });
     } catch (error) {
       next(error);

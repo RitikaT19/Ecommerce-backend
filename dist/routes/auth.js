@@ -59,6 +59,7 @@ router.post("/login", (req, res, next) => __awaiter(void 0, void 0, void 0, func
         res.status(200).json({
             statusCode: 200,
             customMessage: "User successfully logged in!",
+            result: result.data
         });
     }
     catch (error) {

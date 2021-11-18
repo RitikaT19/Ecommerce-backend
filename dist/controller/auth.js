@@ -63,15 +63,18 @@ const registerUser = (userDetails) => __awaiter(void 0, void 0, void 0, function
 });
 const login = (userDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // calling user repository to fetch user detail
         const result = yield userRepository.fetchUser(userDetails.email);
+        // if user with the given email id not available, throw error
         if (!result) {
             throw {
                 statusCode: 400,
                 customMessage: "User not found!",
             };
         }
-        console.log(result, "result");
+        // comparing password provided by the user and password stored in the db
         const comparePassword = yield bcrypt.compare(userDetails.password, result.password);
+        // if password are same, then generate token
         if (comparePassword) {
             const token = get_jwt_1.getJWT({
                 _id: result._id,
@@ -81,13 +84,13 @@ const login = (userDetails) => __awaiter(void 0, void 0, void 0, function* () {
                 username: result.username,
                 role: result.role,
             });
-            console.log(token, "token");
-            return { data: token };
+            return { result: result.data, data: token };
         }
+        // else throw error
         else {
             throw {
                 statusCode: 400,
-                customMessage: "Unauthorized login"
+                customMessage: "Unauthorized login",
             };
         }
     }
