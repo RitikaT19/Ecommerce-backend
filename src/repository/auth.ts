@@ -1,5 +1,5 @@
-import { User } from "../db-init/model/user";
-import { IAddUser } from "../interface/user";
+import { User } from "../db-init/model/auth";
+import { IAddUser } from "../interface/auth";
 
 export const fetchUser = async (email: string) => {
   try {
@@ -17,7 +17,7 @@ export const userAdded = async (userDetails: IAddUser) => {
       lastName: userDetails.lastName,
       username: Math.random().toString(),
       email: userDetails.email,
-      hash_password: userDetails.hash_password,
+      password: userDetails.password,
     });
     return true;
   } catch (error) {

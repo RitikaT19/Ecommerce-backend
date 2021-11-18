@@ -10,7 +10,7 @@ const morgan_1 = __importDefault(require("morgan"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const dbConn_1 = require("./db-init/dbConn");
 const cors_1 = __importDefault(require("cors"));
-const user_1 = __importDefault(require("./routes/user"));
+const auth_1 = __importDefault(require("./routes/auth"));
 const logger_1 = require("./utils/logger");
 const error_1 = __importDefault(require("./middlewares/error"));
 // In case of production environment, disable console logs
@@ -33,8 +33,6 @@ app.get('/', (req, res) => {
     });
 });
 app.set("trust-proxy", 1);
-// Block all unwanted headers using helmet
-// app.use(helmet());
 // Disable x-powered-by header separately
 app.disable("x-powered-by");
 //Setup server
@@ -48,7 +46,7 @@ morgan_1.default.token("remote-addr", (req) => {
     return req.header("X-Real-IP") || req.ip;
 });
 app.use(morgan_1.default("common", { stream: { write: (message) => logger_1.httpLogger.http(message) } }));
-app.use("/api/user", user_1.default);
+app.use("/api/auth", auth_1.default);
 // app.use("/api/career",career)
 app.use(error_1.default);
 //Check if port exists in the environment else use 5000
@@ -59,15 +57,6 @@ if (process.env.NODE_ENV !== "test") {
     app.listen(port, () => {
         console.log(`Server started on http://localhost:${port}`);
     });
-    // app
-    //   .listen(parseInt(port.toString()), "0.0.0.0", () => {
-    //     //Listen the express server on the given port and log a message to the logs
-    //     console.log(`Server is listening on port ${port}`);
-    //   })
-    //   .on("error", (err: any) => {
-    //     //In case of an error, log the error to the logs
-    //     console.log(JSON.stringify(err));
-    //   });
 }
 exports.default = app;
 //# sourceMappingURL=index.js.map

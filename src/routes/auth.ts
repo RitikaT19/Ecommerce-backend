@@ -1,15 +1,15 @@
 import express, { Request, Response, NextFunction } from "express";
-import userController from "../controller/userController";
+import userController from "../controller/auth";
 const router = express.Router();
 
 router.post(
-  "/sign_in",
+  "/sign_up",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       // getting the request body
-      const { firstName, lastName, email, hash_password } = req.body;
+      const { firstName, lastName, email, password } = req.body;
       // if any parameter is unavailable, throw an error
-      if (!firstName || !lastName || !email || !hash_password) {
+      if (!firstName || !lastName || !email || !password) {
         throw {
           statusCode: 400,
           customMessage: "All parameters are required",
