@@ -1,3 +1,4 @@
+import { validateUser } from "../db-init/model/user";
 import { getJWT } from "../helpers/get-jwt";
 import { IAddUser, IUserLogin } from "../interface/user";
 import * as userRepository from "../repository/auth";
@@ -5,6 +6,15 @@ const bcrypt = require("bcrypt");
 
 const registerUser = async (userDetails: IAddUser) => {
   try {
+    // validate user
+    const userValidation: any = validateUser(userDetails);
+    // if there is error, throw error
+    if(userValidation.error){
+      throw{
+        statusCode: 400,
+        customMessage: userValidation.error.details[0].message
+      }
+    }
     const existingEmail = await userRepository.fetchUser(userDetails.email);
     // if the user email exists, throw an error
     if (existingEmail) {

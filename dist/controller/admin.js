@@ -30,9 +30,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const get_jwt_1 = require("../helpers/get-jwt");
 const adminRepository = __importStar(require("../repository/admin"));
+const user_1 = require("../db-init/model/user");
 const bcrypt = require("bcrypt");
 const registerAdmin = (adminDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // validate user
+        const userValidation = user_1.validateUser(adminDetails);
+        // if there is error, throw error
+        if (userValidation.error) {
+            throw {
+                statusCode: 400,
+                customMessage: userValidation.error.details[0].message
+            };
+        }
         const existingEmail = yield adminRepository.fetchAdmin(adminDetails.email);
         // if the user email exists, throw an error
         if (existingEmail) {

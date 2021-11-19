@@ -1,10 +1,20 @@
 import { getJWT } from "../helpers/get-jwt";
 import { IAddUser, IUserLogin } from "../interface/user";
 import * as adminRepository from "../repository/admin";
+import {validateUser} from "../db-init/model/user"
 const bcrypt = require("bcrypt");
 
 const registerAdmin = async (adminDetails: IAddUser) => {
     try {
+      // validate user
+      const userValidation: any = validateUser(adminDetails);
+      // if there is error, throw error
+      if(userValidation.error){
+        throw{
+          statusCode: 400,
+          customMessage: userValidation.error.details[0].message
+        }
+      }
       const existingEmail = await adminRepository.fetchAdmin(adminDetails.email);
       // if the user email exists, throw an error
       if (existingEmail) {

@@ -1,24 +1,17 @@
 import mongoose from "mongoose";
-
+import Joi from "joi";
 const userSchema = new mongoose.Schema(
   {
     firstName: {
       type: String,
-      required: true,
       trim: true,
-      min: 3,
-      max: 20,
     },
     lastName: {
       type: String,
-      required: true,
       trim: true,
-      min: 3,
-      max: 20,
     },
     username: {
       type: String,
-      required: true,
       trim: true,
       unique: true,
       index: true,
@@ -26,16 +19,11 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
       trim: true,
-      lowercase: true,
       unique: true,
     },
     password: {
       type: String,
-      required: true,
-      min: 8,
-      max: 20,
     },
     role: {
       type: String,
@@ -48,24 +36,15 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// hashing the password
-// userSchema.pre("save", async function(next){
-//   // this will hash the password if the password is modified in the future
-//   if(this.isModified('password')){
-//     this.hash_password = await bcrypt.hash(this.password,10)
-//   }
-//   next();
-// })
-
-// userSchema.virtual("password")
-// .set((password: any)=>{
-//   userSchema.hash_password = bcrypt.hashSync(password);
-// })
-// userSchema.methods = {
-//   authenticate: (password, hash_password) =>{
-//     return bcrypt.compareSync(password, this.hash_password)
-//   }
-// }
-
-
 export const User = mongoose.model("user", userSchema);
+
+export const validateUser = (user: any) => {
+  const userValidation = Joi.object({
+    firstName: Joi.string().required(),
+    lastName: Joi.string().required(),
+    password: Joi.string().required(),
+    email: Joi.string().min(5).max(40).required(),
+  });
+  const result = userValidation.validate(user);
+  return result;
+};
