@@ -17,7 +17,7 @@ const productSchema = new mongoose.Schema(
     },
     productPicture: { img: { type: String } },
     category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
-    // createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     updatedAt: Date,
   },
   { timestamps: true }

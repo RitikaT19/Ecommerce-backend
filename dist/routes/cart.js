@@ -14,40 +14,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const helperFile_1 = require("../helpers/helperFile");
-const product_1 = __importDefault(require("../controller/product"));
-const multer = require("multer");
-const shortid = require("shortid");
-const path = require("path");
+const cart_1 = __importDefault(require("../controller/cart"));
 const router = express_1.default.Router();
-const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, path.join(path.dirname(__dirname), "uploads"));
-        console.log("hello");
-        // console.log(path.dirname(__dirname))
-    },
-    filename: (req, file, callback) => {
-        callback(null, shortid.generate() + "-" + file.originalName);
-    },
-});
-const upload = multer({ storage });
-router.post("/", helperFile_1.authenticateToken, upload.single("productPicture"), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.put("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const productObj = {
-            name: req.body.name,
-            description: req.body.description,
-            price: req.body.price,
-            quantity: req.body.quantity,
-            category: req.body.category,
-            productPicture: req.file,
-            createdBy: req.user._id
-        };
-        const result = yield product_1.default.createProduct(productObj);
+        const cartObj = { user: req.user._id, cartItems: req.body.cartItems };
+        const result = yield cart_1.default.addToCart(cartObj);
         if (result.isError) {
             throw result.error;
         }
         res.status(200).json({
-            customCode: 200,
-            customMessage: "product created successfully",
+            statusCode: 200,
+            customMessage: "Added to the cart!!",
+            data: result.data
         });
     }
     catch (error) {
@@ -55,4 +34,4 @@ router.post("/", helperFile_1.authenticateToken, upload.single("productPicture")
     }
 }));
 exports.default = router;
-//# sourceMappingURL=product.js.map
+//# sourceMappingURL=cart.js.map

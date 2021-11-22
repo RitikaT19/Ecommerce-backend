@@ -20,7 +20,7 @@ export const fetchCategory = async () => {
 
 export const fetchSlug = async(slug:string) =>{
     try{
-        let result = await Category.findOne({slug: slug})
+        const result = await Category.findOne({slug: slug})
         return result;
     }catch(error){
         console.log(error)

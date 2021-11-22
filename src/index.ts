@@ -10,6 +10,7 @@ import auth from "./routes/auth";
 import admin from "./routes/admin";
 import category from "./routes/category"
 import product from "./routes/product"
+import cart from "./routes/cart"
 
 import logger, { httpLogger } from "./utils/logger";
 import error from "./middlewares/error";
@@ -65,6 +66,7 @@ app.use("/api/auth/user", auth);
 app.use("/api/auth/admin", admin);
 app.use("/api/category", category);
 app.use("/api/product", product);
+app.use("/api/cart",cart)
 app.use(error);
 
 //Check if port exists in the environment else use 5000

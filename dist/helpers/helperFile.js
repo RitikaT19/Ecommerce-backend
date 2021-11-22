@@ -8,7 +8,7 @@ const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const SECRET_KEY = "E_COMMERCE_SECRET_KEY";
 exports.getJWT = (payload) => {
     return jsonwebtoken_1.default.sign(payload, SECRET_KEY, {
-        expiresIn: "1h",
+        expiresIn: "1d",
     });
 };
 exports.authenticateToken = (req, res, next) => {

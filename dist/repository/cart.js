@@ -9,33 +9,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchSlug = exports.fetchCategory = exports.createCategory = void 0;
-const categories_1 = require("../db-init/model/categories");
-exports.createCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
+exports.updateCart = exports.fetchCart = exports.addToCart = void 0;
+const cart_1 = require("../db-init/model/cart");
+exports.addToCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield categories_1.Category.create(categoryDetails);
-        return true;
+        const result = yield cart_1.Cart.create(cartDetails);
+        return { data: result };
     }
     catch (error) {
-        console.log(error);
+        console.error(error);
     }
 });
-exports.fetchCategory = () => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchCart = (user) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield categories_1.Category.find({});
-        return { data: result, success: true };
-    }
-    catch (error) {
-        console.log(error);
-    }
-});
-exports.fetchSlug = (slug) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const result = yield categories_1.Category.findOne({ slug: slug });
+        const result = yield cart_1.Cart.findOne({ user: user });
         return result;
     }
     catch (error) {
         console.log(error);
     }
 });
-//# sourceMappingURL=category.js.map
+exports.updateCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield cart_1.Cart.findOneAndUpdate({ cartDetails }, {
+            "$push": {
+                cartItems: cartDetails.cartItems
+            }
+        });
+        return result;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+//# sourceMappingURL=cart.js.map

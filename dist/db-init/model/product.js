@@ -22,7 +22,7 @@ const productSchema = new mongoose_1.default.Schema({
     },
     productPicture: { img: { type: String } },
     category: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "Category" },
-    // createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    createdBy: { type: mongoose_1.default.Schema.Types.ObjectId, ref: "User" },
     updatedAt: Date,
 }, { timestamps: true });
 exports.Product = mongoose_1.default.model("product", productSchema);

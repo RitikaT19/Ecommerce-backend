@@ -3,7 +3,7 @@ import { NextFunction, Request, response, Response } from "express";
 const SECRET_KEY = "E_COMMERCE_SECRET_KEY";
 export const getJWT = (payload: any) => {
   return jwt.sign(payload, SECRET_KEY, {
-    expiresIn: "1h",
+    expiresIn: "1d",
   });
 };
 

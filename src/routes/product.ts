@@ -33,6 +33,7 @@ router.post(
         quantity: req.body.quantity,
         category: req.body.category,
         productPicture: req.file,
+        createdBy: req.user._id
       };
 
       const result: any = await productController.createProduct(productObj);
