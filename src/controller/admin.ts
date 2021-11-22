@@ -1,4 +1,4 @@
-import { getJWT } from "../helpers/get-jwt";
+import { getJWT } from "../helpers/helperFile";
 import { IAddUser, IUserLogin } from "../interface/user";
 import * as adminRepository from "../repository/admin";
 import {validateUser} from "../db-init/model/user"

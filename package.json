@@ -25,6 +25,7 @@
     "typescript": "^3.3.3"
   },
   "dependencies": {
+    "@types/multer": "^1.4.7",
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
@@ -34,7 +35,10 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.13",
     "morgan": "^1.10.0",
+    "multer": "^1.4.3",
     "node-rsa": "^1.1.1",
+    "shortid": "^2.2.16",
+    "slugify": "^1.6.2",
     "winston": "^3.3.3"
   }
 }

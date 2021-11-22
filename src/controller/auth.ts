@@ -1,5 +1,5 @@
 import { validateUser } from "../db-init/model/user";
-import { getJWT } from "../helpers/get-jwt";
+import { getJWT } from "../helpers/helperFile";
 import { IAddUser, IUserLogin } from "../interface/user";
 import * as userRepository from "../repository/auth";
 const bcrypt = require("bcrypt");

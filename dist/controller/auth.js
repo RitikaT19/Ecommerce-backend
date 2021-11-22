@@ -29,7 +29,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const user_1 = require("../db-init/model/user");
-const get_jwt_1 = require("../helpers/get-jwt");
+const helperFile_1 = require("../helpers/helperFile");
 const userRepository = __importStar(require("../repository/auth"));
 const bcrypt = require("bcrypt");
 const registerUser = (userDetails) => __awaiter(void 0, void 0, void 0, function* () {
@@ -86,7 +86,7 @@ const login = (userDetails) => __awaiter(void 0, void 0, void 0, function* () {
         const comparePassword = yield bcrypt.compare(userDetails.password, result.password);
         // if password are same, then generate token
         if (comparePassword) {
-            const token = get_jwt_1.getJWT({
+            const token = helperFile_1.getJWT({
                 _id: result._id,
                 firstName: result.firstName,
                 lastName: result.lastName,

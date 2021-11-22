@@ -12,6 +12,8 @@ const dbConn_1 = require("./db-init/dbConn");
 const cors_1 = __importDefault(require("cors"));
 const auth_1 = __importDefault(require("./routes/auth"));
 const admin_1 = __importDefault(require("./routes/admin"));
+const category_1 = __importDefault(require("./routes/category"));
+const product_1 = __importDefault(require("./routes/product"));
 const logger_1 = require("./utils/logger");
 const error_1 = __importDefault(require("./middlewares/error"));
 // In case of production environment, disable console logs
@@ -49,6 +51,8 @@ morgan_1.default.token("remote-addr", (req) => {
 app.use(morgan_1.default("common", { stream: { write: (message) => logger_1.httpLogger.http(message) } }));
 app.use("/api/auth/user", auth_1.default);
 app.use("/api/auth/admin", admin_1.default);
+app.use("/api/category", category_1.default);
+app.use("/api/product", product_1.default);
 app.use(error_1.default);
 //Check if port exists in the environment else use 5000
 const port = process.env.PORT || 5000;
