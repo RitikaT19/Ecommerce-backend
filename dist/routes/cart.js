@@ -21,6 +21,7 @@ router.post("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(v
     try {
         // request body
         const cartObj = { user: req.user._id, cartItems: req.body.cartItems };
+        console.log(cartObj, "cart objecttttttt");
         // calling cartController
         const result = yield cart_1.default.addToCart(cartObj);
         // if there is error, return error
@@ -54,10 +55,10 @@ router.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         next(error);
     }
 }));
-router.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.get(`/userCart`, helperFile_1.authenticateToken, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { id } = req.params;
-        const result = yield cart_1.default.fetchCartByUser(req.params);
+        const id = req.user._id;
+        const result = yield cart_1.default.fetchCartByUser(id);
         if (result.isError) {
             throw result.error;
         }

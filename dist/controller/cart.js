@@ -75,9 +75,9 @@ exports.fetchCart = () => __awaiter(void 0, void 0, void 0, function* () {
         return { isError: true, error };
     }
 });
-exports.fetchCartByUser = (cartDetails) => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchCartByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield cartRepository.fetchCartByUser(cartDetails.id);
+        const result = yield cartRepository.fetchCartByUser(id);
         if (!result) {
             throw {
                 statusCode: 400,

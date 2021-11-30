@@ -48,9 +48,9 @@ export const fetchCart = async() =>{
   }
 }
 
-export const fetchCartByUser = async(cartDetails: any) =>{
+export const fetchCartByUser = async(id: string) =>{
   try{
-    const result: any = await cartRepository.fetchCartByUser(cartDetails.id)
+    const result: any = await cartRepository.fetchCartByUser(id)
     if(!result){
       throw{
         statusCode: 400,

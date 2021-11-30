@@ -11,7 +11,7 @@ router.post(
     try {
       // request body
       const cartObj = { user: req.user._id, cartItems: req.body.cartItems };
-
+      console.log(cartObj,"cart objecttttttt")
       // calling cartController
       const result: any = await cartController.addToCart(cartObj);
       // if there is error, return error
@@ -46,10 +46,11 @@ router.get("/", async(req:Request, res: Response, next: NextFunction) =>{
   }
 })
 
-router.get("/:id", async(req:Request, res: Response, next: NextFunction) =>{
+router.get(`/userCart`, authenticateToken, async(req:Request, res: Response, next: NextFunction) =>{
   try{
-    const {id} = req.params;
-    const result: any = await cartController.fetchCartByUser(req.params);
+    const id = req.user._id;
+    
+    const result: any = await cartController.fetchCartByUser(id);
     if (result.isError){
       throw result.error
     }
