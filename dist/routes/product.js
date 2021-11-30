@@ -15,22 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const helperFile_1 = require("../helpers/helperFile");
 const product_1 = __importDefault(require("../controller/product"));
-const multer = require("multer");
-const shortid = require("shortid");
-const path = require("path");
 const router = express_1.default.Router();
-const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, path.join(path.dirname(__dirname), "uploads"));
-        console.log("hello");
-        // console.log(path.dirname(__dirname))
-    },
-    filename: (req, file, callback) => {
-        callback(null, shortid.generate() + "-" + file.originalName);
-    },
-});
-const upload = multer({ storage });
-router.post("/", helperFile_1.authenticateToken, upload.single("productPicture"), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const productObj = {
             name: req.body.name,
@@ -54,5 +40,39 @@ router.post("/", helperFile_1.authenticateToken, upload.single("productPicture")
         next(error);
     }
 }));
+router.get("/get_product", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield product_1.default.fetchProduct();
+        if (result.isError) {
+            throw result.error;
+        }
+        res.status(200).json({
+            status: 200,
+            customMessage: "Products fetched successfully",
+            data: result.data,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+router.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield product_1.default.fetchProductByCategoryId(id);
+        if (result.isError) {
+            throw result.error;
+        }
+        res.status(200).json({
+            statusCode: 200,
+            customMessage: "Product fetched successfully",
+            data: result.data,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+// router.get("/:id", productRepository.getProductsById);
 exports.default = router;
 //# sourceMappingURL=product.js.map

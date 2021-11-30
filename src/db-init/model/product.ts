@@ -3,7 +3,10 @@ const productSchema = new mongoose.Schema(
   {
     name: {
       type: String,
+      unique: true
     },
+    _id: { type: String },
+   
     price: {
       type: Number,
       trim: true,

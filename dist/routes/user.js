@@ -13,21 +13,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
-const userController_1 = __importDefault(require("../controller/userController"));
+const user_1 = __importDefault(require("../controller/user"));
 const router = express_1.default.Router();
-router.post("/sign_in", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/sign_up", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // getting the request body
-        const { firstName, lastName, email, hash_password } = req.body;
+        const { firstName, lastName, email, password } = req.body;
         // if any parameter is unavailable, throw an error
-        if (!firstName || !lastName || !email || !hash_password) {
+        if (!firstName || !lastName || !email || !password) {
             throw {
                 statusCode: 400,
                 customMessage: "All parameters are required",
             };
         }
         // calling the userController
-        const result = yield userController_1.default.registerUser(req.body);
+        const result = yield user_1.default.registerUser(req.body);
         // will throw an error if error is received
         if (result.isError) {
             throw result.error;
@@ -36,6 +36,30 @@ router.post("/sign_in", (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         res.status(200).json({
             status: 200,
             message: "User registered successfully!",
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+router.post("/login", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            throw {
+                statusCode: 400,
+                customMessage: "All parameters are required",
+            };
+        }
+        const result = yield user_1.default.login(req.body);
+        if (result.isError) {
+            throw result.error;
+        }
+        // will throw success code if process id successful
+        res.status(200).json({
+            statusCode: 200,
+            customMessage: "User successfully logged in!",
+            result: result.data
         });
     }
     catch (error) {

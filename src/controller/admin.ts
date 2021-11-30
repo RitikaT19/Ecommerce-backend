@@ -20,7 +20,7 @@ const registerAdmin = async (adminDetails: IAddUser) => {
       if (existingEmail) {
         throw {
           statusCode: 400,
-          customMessage: "email address already exists",
+          customMessage: "Email address already exists",
         };
       }
   
@@ -55,7 +55,7 @@ const registerAdmin = async (adminDetails: IAddUser) => {
       if (!result) {
         throw {
           statusCode: 400,
-          customMessage: "admin not found!",
+          customMessage: "Admin not found!",
         };
       }
   

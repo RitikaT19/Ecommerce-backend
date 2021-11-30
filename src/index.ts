@@ -6,14 +6,14 @@ import morgan from "morgan";
 import bodyParser from "body-parser";
 import { createConnection } from "./db-init/dbConn";
 import cors from "cors";
-import auth from "./routes/auth";
+import user from "./routes/user";
 import admin from "./routes/admin";
 import category from "./routes/category"
 import product from "./routes/product"
 import cart from "./routes/cart"
 
 import logger, { httpLogger } from "./utils/logger";
-import error from "./middlewares/error";
+// import error from "./middlewares/error";
 // In case of production environment, disable console logs
 if (process.env.NODE_ENV === "production") {
   console.log = (msg: string) => {};
@@ -62,12 +62,12 @@ app.use(
   morgan("common", { stream: { write: (message) => httpLogger.http(message) } })
 );
 
-app.use("/api/auth/user", auth);
+app.use("/api/auth/user", user);
 app.use("/api/auth/admin", admin);
 app.use("/api/category", category);
 app.use("/api/product", product);
 app.use("/api/cart",cart)
-app.use(error);
+// app.use(error);
 
 //Check if port exists in the environment else use 5000
 const port = process.env.PORT || 5000;

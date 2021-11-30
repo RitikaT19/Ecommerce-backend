@@ -1,40 +1,66 @@
 import * as cartRepository from "../repository/cart";
+
 const addToCart = async (cartDetails: any) => {
   try {
-    const cartExists = await cartRepository.fetchCart(cartDetails.user)
-    if(cartExists){
-        // const itemExists = await cartRepository.fetchItem(cartDetails.cartItems)
-        // if(itemExists){
-        //     throw{
-
-        //     }
-        // }
-        console.log(cartDetails.cartItems, "products")
-        const update=await cartRepository.updateCart(cartDetails)
-        if(!update){
-            throw{
-                statusCode: 400,
-                customMessage: "Wasn't able to update cart"
-            }
-        }
+    // checking if the cart exists for the certain user
+    const cartExists = await cartRepository.fetchCart(cartDetails.user);
+    if (cartExists) {
+      // if the cart exists, update the cart
+      const update = await cartRepository.updateCart(cartDetails);
+      if (!update) {
+        throw {
+          statusCode: 400,
+          customMessage: "Wasn't able to update cart",
+        };
+      }
     }
-    else{
-        const result = await cartRepository.addToCart(cartDetails);
-        if (!result) {
-            throw {
-              statusCode: 400,
-              customMessage: "Wasn't able to add to the cart",
-            };
-          }
-         
+    // if the cart does not exists, then make a new cart
+    else {
+      const result = await cartRepository.addToCart(cartDetails);
+      if (!result) {
+        throw {
+          statusCode: 400,
+          customMessage: "Wasn't able to add to the cart",
+        };
+      }
     }
 
     return { isError: false };
-    
-    
   } catch (error) {
     return { isError: true, error };
   }
 };
 
-export default { addToCart };
+export const fetchCart = async() =>{
+  try{
+    const result: any = await cartRepository.fetchCartDetails();
+    if(!result){
+      throw{
+        statusCode: 400,
+        customMessage: "Not able to fetch cart details"
+      }
+    }
+    return{isError: false, data: result.data}
+
+
+  }catch(error){
+    return{ isError: true, error}
+  }
+}
+
+export const fetchCartByUser = async(cartDetails: any) =>{
+  try{
+    const result: any = await cartRepository.fetchCartByUser(cartDetails.id)
+    if(!result){
+      throw{
+        statusCode: 400,
+        customMessage: "Not able to fetch cart details"
+      }
+    }
+    console.log(result)
+    return{ isError: false, data: result.data}
+  }catch(error){
+    return{isError: true, error}
+  }
+}
+export default { addToCart, fetchCart, fetchCartByUser };

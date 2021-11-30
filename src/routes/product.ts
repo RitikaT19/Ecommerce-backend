@@ -1,29 +1,13 @@
 import express, { Request, Response, NextFunction } from "express";
+import * as productRepository from "../repository/product"
 import { authenticateToken } from "../helpers/helperFile";
 import productController from "../controller/product";
 import slugify from "slugify";
-const multer = require("multer");
-const shortid = require("shortid");
-const path = require("path");
 const router = express.Router();
-
-const storage = multer.diskStorage({
-  destination: (req: Request, file: any, callback: any) => {
-    callback(null, path.join(path.dirname(__dirname), "uploads"));
-    console.log("hello");
-    // console.log(path.dirname(__dirname))
-  },
-  filename: (req: Request, file: any, callback: any) => {
-    callback(null, shortid.generate() + "-" + file.originalName);
-  },
-});
-
-const upload = multer({ storage });
 
 router.post(
   "/",
   authenticateToken,
-  upload.single("productPicture"),
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const productObj = {
@@ -49,5 +33,41 @@ router.post(
     }
   }
 );
+
+router.get("/get_product",
+async(req: Request, res: Response, next: NextFunction) =>{
+  try{
+    const result: any = await productController.fetchProduct();
+    if(result.isError){
+      throw result.error;
+    }
+    res.status(200).json({
+      status: 200,
+      customMessage: "Products fetched successfully",
+      data: result.data, 
+    })
+  }catch(error){
+    next(error)
+  }
+})
+
+router.get("/:id", async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    const {id} = req.params;
+    const result: any = await productController.fetchProductByCategoryId(id)
+    if(result.isError){
+      throw result.error; 
+    }
+    res.status(200).json({
+      statusCode: 200,
+      customMessage: "Product fetched successfully",
+      data: result.data,
+    })
+  }catch(error){
+    next(error)
+  }
+})
+
+// router.get("/:id", productRepository.getProductsById);
 
 export default router;

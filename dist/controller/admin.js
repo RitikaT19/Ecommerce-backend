@@ -48,7 +48,7 @@ const registerAdmin = (adminDetails) => __awaiter(void 0, void 0, void 0, functi
         if (existingEmail) {
             throw {
                 statusCode: 400,
-                customMessage: "email address already exists",
+                customMessage: "Email address already exists",
             };
         }
         let { firstName, lastName, email, password } = adminDetails;
@@ -79,7 +79,7 @@ const login = (adminDetails) => __awaiter(void 0, void 0, void 0, function* () {
         if (!result) {
             throw {
                 statusCode: 400,
-                customMessage: "admin not found!",
+                customMessage: "Admin not found!",
             };
         }
         // comparing password provided by the admin and password stored in the db

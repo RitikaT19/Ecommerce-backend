@@ -28,6 +28,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.fetchProductByCategoryId = exports.fetchProduct = void 0;
 const productRepository = __importStar(require("../repository/product"));
 const createProduct = (productDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -35,14 +36,14 @@ const createProduct = (productDetails) => __awaiter(void 0, void 0, void 0, func
         if (existingProduct) {
             throw {
                 statusCode: 400,
-                customMessage: "Product already exists"
+                customMessage: "Product already exists",
             };
         }
         const result = yield productRepository.createProduct(productDetails);
         if (!result) {
             throw {
                 statusCode: 400,
-                customMessage: "Some error occurred"
+                customMessage: "Some error occurred",
             };
         }
         return { isError: false };
@@ -51,5 +52,61 @@ const createProduct = (productDetails) => __awaiter(void 0, void 0, void 0, func
         return { isError: true, error };
     }
 });
-exports.default = { createProduct };
+exports.fetchProduct = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield productRepository.fetchProductDetails();
+        if (!result) {
+            throw {
+                statusCode: 400,
+                customMessage: "Some error occured while fetching products",
+            };
+        }
+        return { isError: false, data: result.data };
+    }
+    catch (error) {
+        return { isError: true };
+    }
+});
+// export const fetchProductById = async(products: any)=>{
+//     try{
+//         const fetchCategory: any = await productRepository.fetchProductById(products.id);
+//         if(fetchCategory){
+//             const result: any = await productRepository.fetchProductByCategoryId(products.category)
+//             return {isError: false, data: result.data}
+//         }
+//         return{ isError: false, data: result.data}
+//         if(!result){
+//             throw{
+//                 statusCode: 400,
+//                 customMessage: "Some error occured while fetching products"
+//             }
+//         }
+//         return{isError: false, data: result.data}
+//     }catch(error){
+//         return{ isError: true}
+//     }
+// }
+exports.fetchProductByCategoryId = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield productRepository.fetchCategoryById(id);
+        if (!result.success) {
+            throw {
+                statusCode: 400,
+                customMessage: "category not found",
+            };
+        }
+        const productInformation = yield productRepository.fetchProductByCategoryId(id);
+        if (!productInformation.success) {
+            throw {
+                statusCode: 400,
+                customMessage: "products not found",
+            };
+        }
+        return { isError: false, data: productInformation.data };
+    }
+    catch (error) {
+        return { isError: true, error };
+    }
+});
+exports.default = { createProduct, fetchProduct: exports.fetchProduct, fetchProductByCategoryId: exports.fetchProductByCategoryId };
 //# sourceMappingURL=product.js.map

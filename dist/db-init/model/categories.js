@@ -8,13 +8,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const categorySchema = new mongoose_1.default.Schema({
     name: {
         type: String,
-    },
-    slug: {
-        type: String,
-        unique: true,
-    },
-    parentId: {
-        type: String,
+        unique: true
     },
 }, { timestamps: true });
 exports.Category = mongoose_1.default.model("category", categorySchema);

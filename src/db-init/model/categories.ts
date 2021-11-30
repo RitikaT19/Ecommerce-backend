@@ -3,13 +3,7 @@ const categorySchema = new mongoose.Schema(
   {
     name: {
       type: String,
-    },
-    slug: {
-      type: String,
-      unique: true,
-    },
-    parentId: {
-      type: String,
+      unique:true
     },
   },
   { timestamps: true }

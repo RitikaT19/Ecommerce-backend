@@ -8,7 +8,9 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const productSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
+        unique: true
     },
+    _id: { type: String },
     price: {
         type: Number,
         trim: true,

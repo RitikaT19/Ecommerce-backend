@@ -16,17 +16,55 @@ const express_1 = __importDefault(require("express"));
 const helperFile_1 = require("../helpers/helperFile");
 const cart_1 = __importDefault(require("../controller/cart"));
 const router = express_1.default.Router();
-router.put("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+// route for adding products in the cart
+router.post("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // request body
         const cartObj = { user: req.user._id, cartItems: req.body.cartItems };
+        // calling cartController
         const result = yield cart_1.default.addToCart(cartObj);
+        // if there is error, return error
+        if (result.isError) {
+            throw result.error;
+        }
+        // if the process is successful, provide success status
+        res.status(200).json({
+            statusCode: 200,
+            customMessage: "Added to the cart!!",
+            data: result.data,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+router.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield cart_1.default.fetchCart();
         if (result.isError) {
             throw result.error;
         }
         res.status(200).json({
             statusCode: 200,
-            customMessage: "Added to the cart!!",
-            data: result.data
+            customMessage: "Cart fetched successfully",
+            data: result.data,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
+router.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield cart_1.default.fetchCartByUser(req.params);
+        if (result.isError) {
+            throw result.error;
+        }
+        res.status(200).json({
+            statusCode: 200,
+            customMessage: " User Cart fetched successfully",
+            data: result.data,
         });
     }
     catch (error) {

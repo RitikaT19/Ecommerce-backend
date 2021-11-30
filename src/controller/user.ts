@@ -1,7 +1,7 @@
 import { validateUser } from "../db-init/model/user";
 import { getJWT } from "../helpers/helperFile";
 import { IAddUser, IUserLogin } from "../interface/user";
-import * as userRepository from "../repository/auth";
+import * as userRepository from "../repository/user";
 const bcrypt = require("bcrypt");
 
 const registerUser = async (userDetails: IAddUser) => {
@@ -20,7 +20,7 @@ const registerUser = async (userDetails: IAddUser) => {
     if (existingEmail) {
       throw {
         statusCode: 400,
-        customMessage: "email address already exists",
+        customMessage: "Email address already exists",
       };
     }
 

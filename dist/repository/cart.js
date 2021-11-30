@@ -9,8 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateCart = exports.fetchCart = exports.addToCart = void 0;
+exports.fetchCartByUser = exports.fetchCartDetails = exports.updateCart = exports.fetchCart = exports.addToCart = void 0;
 const cart_1 = require("../db-init/model/cart");
+/**
+ * @description mongoose method for add a cart
+ * @param cartDetails
+ * @returns
+ */
 exports.addToCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield cart_1.Cart.create(cartDetails);
@@ -20,6 +25,11 @@ exports.addToCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function*
         console.error(error);
     }
 });
+/**
+ * @description mongoose method for fetching the cart
+ * @param user
+ * @returns
+ */
 exports.fetchCart = (user) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield cart_1.Cart.findOne({ user: user });
@@ -29,14 +39,46 @@ exports.fetchCart = (user) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(error);
     }
 });
+/**
+ * @description mongoose method for updating the cart
+ * @param cartDetails
+ * @returns
+ */
 exports.updateCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield cart_1.Cart.findOneAndUpdate({ cartDetails }, {
-            "$push": {
-                cartItems: cartDetails.cartItems
-            }
+            $push: {
+                cartItems: cartDetails.cartItems,
+            },
         });
         return result;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+// export const fetchItem = async(id:string) =>{
+//     try{
+//         const result = await Cart.findById({_id:id})
+//         return result
+//     }catch(error){
+//         console.log(error)
+//     }
+// }
+exports.fetchCartDetails = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield cart_1.Cart.find({});
+        return { data: result };
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.fetchCartByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield cart_1.Cart.findOne({ user: id });
+        console.log(result, "result");
+        return { data: result };
     }
     catch (error) {
         console.log(error);

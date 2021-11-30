@@ -10,13 +10,13 @@ const morgan_1 = __importDefault(require("morgan"));
 const body_parser_1 = __importDefault(require("body-parser"));
 const dbConn_1 = require("./db-init/dbConn");
 const cors_1 = __importDefault(require("cors"));
-const auth_1 = __importDefault(require("./routes/auth"));
+const user_1 = __importDefault(require("./routes/user"));
 const admin_1 = __importDefault(require("./routes/admin"));
 const category_1 = __importDefault(require("./routes/category"));
 const product_1 = __importDefault(require("./routes/product"));
 const cart_1 = __importDefault(require("./routes/cart"));
 const logger_1 = require("./utils/logger");
-const error_1 = __importDefault(require("./middlewares/error"));
+// import error from "./middlewares/error";
 // In case of production environment, disable console logs
 if (process.env.NODE_ENV === "production") {
     console.log = (msg) => { };
@@ -50,12 +50,12 @@ morgan_1.default.token("remote-addr", (req) => {
     return req.header("X-Real-IP") || req.ip;
 });
 app.use(morgan_1.default("common", { stream: { write: (message) => logger_1.httpLogger.http(message) } }));
-app.use("/api/auth/user", auth_1.default);
+app.use("/api/auth/user", user_1.default);
 app.use("/api/auth/admin", admin_1.default);
 app.use("/api/category", category_1.default);
 app.use("/api/product", product_1.default);
 app.use("/api/cart", cart_1.default);
-app.use(error_1.default);
+// app.use(error);
 //Check if port exists in the environment else use 5000
 const port = process.env.PORT || 5000;
 //If the environment is test, do not start the express server

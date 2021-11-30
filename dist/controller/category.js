@@ -28,21 +28,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateCategory = exports.deleteCategory = void 0;
 const categoryRepository = __importStar(require("../repository/category"));
 const createCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const existingSlug = yield categoryRepository.fetchSlug(categoryDetails.slug);
+        const existingSlug = yield categoryRepository.fetchCategoryName(categoryDetails.name);
         if (existingSlug) {
             throw {
                 statusCode: 400,
-                customMessage: "Category name already exists"
+                customMessage: "Category name already exists",
             };
         }
         const result = yield categoryRepository.createCategory(categoryDetails);
         if (!result) {
             throw {
                 statusCode: 400,
-                customMessage: "Some error occurred"
+                customMessage: "Some error occurred",
             };
         }
         return { isError: false };
@@ -57,17 +58,64 @@ const fetchCategory = () => __awaiter(void 0, void 0, void 0, function* () {
         if (!result.success) {
             throw {
                 statusCode: 400,
-                customMessage: "Unable to fetch categories"
+                customMessage: "Unable to fetch categories",
             };
         }
         return {
             isError: false,
-            data: result.data
+            data: result.data,
         };
     }
     catch (error) {
         return { isError: true, error };
     }
 });
-exports.default = { createCategory, fetchCategory };
+exports.deleteCategory = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield categoryRepository.fetchCategoryById(id);
+        if (result) {
+            throw {
+                statusCode: 400,
+                customMessage: "Category not found",
+            };
+        }
+        const categoryDeleted = yield categoryRepository.deleteCategory(id);
+        if (!categoryDeleted) {
+            throw {
+                statusCode: 400,
+                customMessage: "Unable to delete category",
+            };
+        }
+    }
+    catch (error) {
+        return { isError: true, error };
+    }
+});
+exports.updateCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield categoryRepository.fetchCategoryById(categoryDetails.id);
+        if (!result) {
+            throw {
+                statusCode: 400,
+                customMessage: "category not found"
+            };
+        }
+        // await categoryRepository.updateCategory(categoryDetails);
+        // const updatedCategory: any = await categoryRepository.fetchCategoryById(categoryDetails.id)
+        // const categoryUpdate  = ({
+        //     _id: updatedCategory._id,
+        //     name: updatedCategory.name
+        // })
+        return { isError: false, data: result };
+    }
+    catch (error) {
+        return { isError: true, error };
+    }
+});
+exports.default = {
+    createCategory,
+    fetchCategory,
+    deleteCategory: exports.deleteCategory,
+    updateCategory: exports.updateCategory,
+};
 //# sourceMappingURL=category.js.map

@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchSlug = exports.fetchCategory = exports.createCategory = void 0;
+exports.updateCategory = exports.deleteCategory = exports.fetchCategoryById = exports.fetchCategoryName = exports.fetchCategory = exports.createCategory = void 0;
 const categories_1 = require("../db-init/model/categories");
 exports.createCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -29,10 +29,39 @@ exports.fetchCategory = () => __awaiter(void 0, void 0, void 0, function* () {
         console.log(error);
     }
 });
-exports.fetchSlug = (slug) => __awaiter(void 0, void 0, void 0, function* () {
+exports.fetchCategoryName = (name) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield categories_1.Category.findOne({ slug: slug });
+        const result = yield categories_1.Category.findOne({ name: name });
         return result;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.fetchCategoryById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield categories_1.Category.findById({ id: id });
+        return result;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.deleteCategory = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield categories_1.Category.findByIdAndDelete(id);
+        return true;
+    }
+    catch (error) {
+        console.log(error);
+    }
+});
+exports.updateCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        yield categories_1.Category.findByIdAndUpdate(categoryDetails.id, {
+            name: categoryDetails.name
+        });
+        return true;
     }
     catch (error) {
         console.log(error);
