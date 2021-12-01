@@ -1,4 +1,5 @@
 import { Cart } from "../db-init/model/cart";
+import {Product} from "../db-init/model/product"
 
 /**
  * @description mongoose method for add a cart
@@ -49,15 +50,6 @@ export const updateCart = async (cartDetails: any) => {
   }
 };
 
-// export const fetchItem = async(id:string) =>{
-//     try{
-//         const result = await Cart.findById({_id:id})
-//         return result
-//     }catch(error){
-//         console.log(error)
-//     }
-// }
-
 export const fetchCartDetails = async() =>{
   try{
     const result = await Cart.find({})
@@ -70,9 +62,33 @@ export const fetchCartDetails = async() =>{
 export const fetchCartByUser = async(id:any) =>{
   try{
     const result = await Cart.findOne({user: id})
-    console.log(result, "result")
-    return{data: result}
+    // .select("_id_type, quantity")
+    // console.log(result, "result")
+    return{
+      success: true,
+      data: result
+    }
   }catch(error){
-    console.log(error)
+    return{ success: false, error}
   }
 }
+
+export const fetchProductDetails = async(id: any) =>{
+  try{
+    const result = await Product.findOne({_id:id})
+    .select("_id_type, name price")
+    console.log(id,result, "fetch by idddddddd")
+    return {success: true,
+      data: result } 
+  }catch(error){
+    return{ success: false}
+  }
+}
+
+// export const fetchProductDetails = async(id: any) =>{
+//   try{
+//     const result = await Product.aggregate(cartItems:{$map:{}})
+//   }catch(error){
+//     return{success: false}
+//   }
+// }

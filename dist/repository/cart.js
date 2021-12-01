@@ -9,8 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchCartByUser = exports.fetchCartDetails = exports.updateCart = exports.fetchCart = exports.addToCart = void 0;
+exports.fetchProductDetails = exports.fetchCartByUser = exports.fetchCartDetails = exports.updateCart = exports.fetchCart = exports.addToCart = void 0;
 const cart_1 = require("../db-init/model/cart");
+const product_1 = require("../db-init/model/product");
 /**
  * @description mongoose method for add a cart
  * @param cartDetails
@@ -57,14 +58,6 @@ exports.updateCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function
         console.log(error);
     }
 });
-// export const fetchItem = async(id:string) =>{
-//     try{
-//         const result = await Cart.findById({_id:id})
-//         return result
-//     }catch(error){
-//         console.log(error)
-//     }
-// }
 exports.fetchCartDetails = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield cart_1.Cart.find({});
@@ -77,11 +70,34 @@ exports.fetchCartDetails = () => __awaiter(void 0, void 0, void 0, function* () 
 exports.fetchCartByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield cart_1.Cart.findOne({ user: id });
-        console.log(result, "result");
-        return { data: result };
+        // .select("_id_type, quantity")
+        // console.log(result, "result")
+        return {
+            success: true,
+            data: result
+        };
     }
     catch (error) {
-        console.log(error);
+        return { success: false, error };
     }
 });
+exports.fetchProductDetails = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield product_1.Product.findOne({ _id: id })
+            .select("_id_type, name price");
+        console.log(id, result, "fetch by idddddddd");
+        return { success: true,
+            data: result };
+    }
+    catch (error) {
+        return { success: false };
+    }
+});
+// export const fetchProductDetails = async(id: any) =>{
+//   try{
+//     const result = await Product.aggregate(cartItems:{$map:{}})
+//   }catch(error){
+//     return{success: false}
+//   }
+// }
 //# sourceMappingURL=cart.js.map

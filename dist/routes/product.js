@@ -73,6 +73,24 @@ router.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         next(error);
     }
 }));
+// =====================================================================================================
+router.get("/prod/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id } = req.params;
+        const result = yield product_1.default.fetchProductById(id);
+        if (result.isError) {
+            throw result.error;
+        }
+        res.status(200).json({
+            statusCode: 200,
+            customMessage: "Product fetched successfully",
+            data: result,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
 // router.get("/:id", productRepository.getProductsById);
 exports.default = router;
 //# sourceMappingURL=product.js.map

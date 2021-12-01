@@ -10,7 +10,6 @@ const productSchema = new mongoose_1.default.Schema({
         type: String,
         unique: true
     },
-    _id: { type: String },
     price: {
         type: Number,
         trim: true,

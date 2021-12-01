@@ -66,7 +66,7 @@ exports.fetchCart = () => __awaiter(void 0, void 0, void 0, function* () {
         if (!result) {
             throw {
                 statusCode: 400,
-                customMessage: "Not able to fetch cart details"
+                customMessage: "Not able to fetch cart details",
             };
         }
         return { isError: false, data: result.data };
@@ -78,14 +78,27 @@ exports.fetchCart = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.fetchCartByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield cartRepository.fetchCartByUser(id);
-        if (!result) {
+        console.log(result, "resultttttttttttttttttttttttttttt");
+        if (!result.success) {
             throw {
                 statusCode: 400,
-                customMessage: "Not able to fetch cart details"
+                customMessage: "Not able to fetch cart details",
             };
         }
-        console.log(result);
-        return { isError: false, data: result.data };
+        else {
+            // let cartItems = {};
+            // result.data.cartItems.forEach((item,index)=>{
+            //   cartItems[item.product.to]
+            // })
+            const productInformation = yield cartRepository.fetchProductDetails(result.data.cartItems[0].product);
+            if (!productInformation) {
+                throw {
+                    customCode: 400,
+                    customMessage: "products not found",
+                };
+            }
+            return { isError: false, data: productInformation.data };
+        }
     }
     catch (error) {
         return { isError: true, error };

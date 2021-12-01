@@ -28,7 +28,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchProductByCategoryId = exports.fetchProduct = void 0;
+exports.fetchProductByCategoryId = exports.fetchProductById = exports.fetchProduct = void 0;
 const productRepository = __importStar(require("../repository/product"));
 const createProduct = (productDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -67,25 +67,24 @@ exports.fetchProduct = () => __awaiter(void 0, void 0, void 0, function* () {
         return { isError: true };
     }
 });
-// export const fetchProductById = async(products: any)=>{
-//     try{
-//         const fetchCategory: any = await productRepository.fetchProductById(products.id);
-//         if(fetchCategory){
-//             const result: any = await productRepository.fetchProductByCategoryId(products.category)
-//             return {isError: false, data: result.data}
-//         }
-//         return{ isError: false, data: result.data}
-//         if(!result){
-//             throw{
-//                 statusCode: 400,
-//                 customMessage: "Some error occured while fetching products"
-//             }
-//         }
-//         return{isError: false, data: result.data}
-//     }catch(error){
-//         return{ isError: true}
-//     }
-// }
+// ========================================================================
+exports.fetchProductById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield productRepository.fetchProductById(id);
+        if (!result) {
+            throw {
+                statusCode: 400,
+                customMessage: "Some error occured while fetching products"
+            };
+        }
+        console.log(result, "from controller");
+        return { isError: false, data: result.data };
+    }
+    catch (error) {
+        return { isError: true };
+    }
+});
+// ========================================================================
 exports.fetchProductByCategoryId = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield productRepository.fetchCategoryById(id);
@@ -108,5 +107,5 @@ exports.fetchProductByCategoryId = (id) => __awaiter(void 0, void 0, void 0, fun
         return { isError: true, error };
     }
 });
-exports.default = { createProduct, fetchProduct: exports.fetchProduct, fetchProductByCategoryId: exports.fetchProductByCategoryId };
+exports.default = { createProduct, fetchProduct: exports.fetchProduct, fetchProductByCategoryId: exports.fetchProductByCategoryId, fetchProductById: exports.fetchProductById };
 //# sourceMappingURL=product.js.map

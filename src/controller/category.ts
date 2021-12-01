@@ -86,9 +86,11 @@ export const updateCategory = async(categoryDetails: any)=>{
     }
 }
 
+
 export default {
   createCategory,
   fetchCategory,
   deleteCategory,
   updateCategory,
+  
 };

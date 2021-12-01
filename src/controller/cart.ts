@@ -1,4 +1,5 @@
 import * as cartRepository from "../repository/cart";
+import * as productRepository from "../repository/product"
 
 const addToCart = async (cartDetails: any) => {
   try {
@@ -31,36 +32,47 @@ const addToCart = async (cartDetails: any) => {
   }
 };
 
-export const fetchCart = async() =>{
-  try{
+export const fetchCart = async () => {
+  try {
     const result: any = await cartRepository.fetchCartDetails();
-    if(!result){
-      throw{
+    if (!result) {
+      throw {
         statusCode: 400,
-        customMessage: "Not able to fetch cart details"
-      }
+        customMessage: "Not able to fetch cart details",
+      };
     }
-    return{isError: false, data: result.data}
-
-
-  }catch(error){
-    return{ isError: true, error}
+    return { isError: false, data: result.data };
+  } catch (error) {
+    return { isError: true, error };
   }
-}
+};
 
-export const fetchCartByUser = async(id: string) =>{
-  try{
-    const result: any = await cartRepository.fetchCartByUser(id)
-    if(!result){
-      throw{
+export const fetchCartByUser = async (id: any) => {
+  try {
+    const result: any = await cartRepository.fetchCartByUser(id);
+    console.log(result, "resultttttttttttttttttttttttttttt")
+    
+    if (!result.success) {
+      throw {
         statusCode: 400,
-        customMessage: "Not able to fetch cart details"
+        customMessage: "Not able to fetch cart details",
+      };
+    } else {
+      // let cartItems = {};
+      // result.data.cartItems.forEach((item,index)=>{
+      //   cartItems[item.product.to]
+      // })
+      const productInformation =await cartRepository.fetchProductDetails(result.data.cartItems[0].product);
+      if (!productInformation) {
+        throw {
+          customCode: 400,
+          customMessage: "products not found",
+        };
       }
+      return { isError: false, data: productInformation.data };
     }
-    console.log(result)
-    return{ isError: false, data: result.data}
-  }catch(error){
-    return{isError: true, error}
+  } catch (error) {
+    return { isError: true, error };
   }
-}
+};
 export default { addToCart, fetchCart, fetchCartByUser };

@@ -37,25 +37,23 @@ export const fetchProduct = async () => {
     return { isError: true };
   }
 };
-// export const fetchProductById = async(products: any)=>{
-//     try{
-//         const fetchCategory: any = await productRepository.fetchProductById(products.id);
-//         if(fetchCategory){
-//             const result: any = await productRepository.fetchProductByCategoryId(products.category)
-//             return {isError: false, data: result.data}
-//         }
-//         return{ isError: false, data: result.data}
-//         if(!result){
-//             throw{
-//                 statusCode: 400,
-//                 customMessage: "Some error occured while fetching products"
-//             }
-//         }
-//         return{isError: false, data: result.data}
-//     }catch(error){
-//         return{ isError: true}
-//     }
-// }
+// ========================================================================
+export const fetchProductById = async(id:any)=>{
+    try{
+        const result: any = await productRepository.fetchProductById(id);
+        if(!result){
+            throw{
+                statusCode: 400,
+                customMessage: "Some error occured while fetching products"
+            }
+        }
+        console.log(result, "from controller")
+        return{isError: false, data: result.data}
+    }catch(error){
+        return{ isError: true}
+    }
+}
+// ========================================================================
 
 export const fetchProductByCategoryId = async (id: string) => {
   try {
@@ -81,4 +79,4 @@ export const fetchProductByCategoryId = async (id: string) => {
   }
 };
 
-export default { createProduct, fetchProduct, fetchProductByCategoryId };
+export default { createProduct, fetchProduct, fetchProductByCategoryId, fetchProductById};

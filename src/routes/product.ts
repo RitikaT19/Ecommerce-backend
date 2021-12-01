@@ -67,6 +67,23 @@ router.get("/:id", async(req: Request, res: Response, next: NextFunction)=>{
     next(error)
   }
 })
+// =====================================================================================================
+router.get("/prod/:id", async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    const {id} = req.params;
+    const result: any = await productController.fetchProductById(id)
+    if(result.isError){
+      throw result.error; 
+    }
+    res.status(200).json({
+      statusCode: 200,
+      customMessage: "Product fetched successfully",
+      data: result,
+    })
+  }catch(error){
+    next(error)
+  }
+})
 
 // router.get("/:id", productRepository.getProductsById);
 
