@@ -11,6 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminAdded = exports.fetchAdmin = void 0;
 const user_1 = require("../db-init/model/user");
+/**
+ * @description mongoose method for finding email from the db
+ * @param email
+ * @returns
+ */
 exports.fetchAdmin = (email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let result = yield user_1.User.findOne({ email: email });
@@ -20,6 +25,11 @@ exports.fetchAdmin = (email) => __awaiter(void 0, void 0, void 0, function* () {
         return false;
     }
 });
+/**
+ * @description mongoose method for creating a user
+ * @param adminDetails
+ * @returns
+ */
 exports.adminAdded = (adminDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield user_1.User.create({
@@ -28,7 +38,7 @@ exports.adminAdded = (adminDetails) => __awaiter(void 0, void 0, void 0, functio
             username: Math.random().toString(),
             email: adminDetails.email,
             password: adminDetails.password,
-            role: "admin"
+            role: "admin",
         });
         return true;
     }

@@ -2,16 +2,20 @@ import * as categoryRepository from "../repository/category";
 
 const createCategory = async (categoryDetails: any) => {
   try {
-    const existingSlug = await categoryRepository.fetchCategoryName(
+    // call repo to fetch category by name
+    const existingName = await categoryRepository.fetchCategoryName(
       categoryDetails.name
     );
-    if (existingSlug) {
+    // if category name already exists, throw an error
+    if (existingName) {
       throw {
         statusCode: 400,
         customMessage: "Category name already exists",
       };
     }
+    // if category name does not exists, call repo to create a new category
     const result = await categoryRepository.createCategory(categoryDetails);
+    // if result is not received, throw error
     if (!result) {
       throw {
         statusCode: 400,
@@ -26,7 +30,9 @@ const createCategory = async (categoryDetails: any) => {
 
 const fetchCategory = async () => {
   try {
+    // call repo to fetch category
     const result: any = await categoryRepository.fetchCategory();
+    // if unable to fetch category, throw error
     if (!result.success) {
       throw {
         statusCode: 400,
@@ -44,13 +50,16 @@ const fetchCategory = async () => {
 
 export const deleteCategory = async (id: string) => {
   try {
+    // call repo to fetch category by id
     const result = await categoryRepository.fetchCategoryById(id);
-    if (result) {
+    // if result is not received, throw an errror
+    if (!result) {
       throw {
         statusCode: 400,
         customMessage: "Category not found",
       };
     }
+    // if category exists, then call repo to delete the category
     const categoryDeleted = await categoryRepository.deleteCategory(id);
     if (!categoryDeleted) {
       throw {
@@ -63,34 +72,25 @@ export const deleteCategory = async (id: string) => {
   }
 };
 
-export const updateCategory = async(categoryDetails: any)=>{
-    try{
-        const result = await categoryRepository.updateCategory(categoryDetails);
-        if(!result){
-            throw{
-                statusCode: 400,
-                customMessage: "category not found"
-            }
-        }
-
-        console.log(result, "update categoryyyy")
-
-        // const updatedCategory: any = await categoryRepository.fetchCategoryById(categoryDetails.id)
-        // const categoryUpdate  = ({
-        //     _id: updatedCategory._id,
-        //     name: updatedCategory.name
-        // })
-        return{isError: false, data: result}
-    }catch(error){
-        return{isError: true, error}
+export const updateCategory = async (categoryDetails: any) => {
+  try {
+    // call repo to update category by id
+    const result = await categoryRepository.updateCategory(categoryDetails);
+    if (!result) {
+      throw {
+        statusCode: 400,
+        customMessage: "category not found",
+      };
     }
-}
-
+    return { isError: false, data: result };
+  } catch (error) {
+    return { isError: true, error };
+  }
+};
 
 export default {
   createCategory,
   fetchCategory,
   deleteCategory,
   updateCategory,
-  
 };

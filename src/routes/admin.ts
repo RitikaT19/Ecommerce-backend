@@ -37,15 +37,18 @@ router.post(
     "/login",
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        // getting request body
         const { email, password } = req.body;
+        // if either of the parameter is missing, throw an error
         if (!email || !password) {
           throw {
             statusCode: 400,
             customMessage: "All parameters are required",
           };
         }
-  
+        // call controller to fetch result
         const result: any = await adminController.login(req.body);
+        // if result is not available, throw error
         if (result.isError) {
           throw result.error;
         }

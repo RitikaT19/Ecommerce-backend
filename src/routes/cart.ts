@@ -32,10 +32,13 @@ router.post(
 
 router.get("/", async(req:Request, res: Response, next: NextFunction) =>{
   try{
+    // call controller to fetch cart
     const result: any = await cartController.fetchCart();
+    // if result is not received, throw error
     if (result.isError){
       throw result.error
     }
+    // if process is successful, give succuss status code
     res.status(200).json({
       statusCode: 200,
       customMessage: "Cart fetched successfully",
@@ -49,14 +52,16 @@ router.get("/", async(req:Request, res: Response, next: NextFunction) =>{
 router.get(`/userCart`, authenticateToken, async(req:Request, res: Response, next: NextFunction) =>{
   try{
     const id = req.user._id;
-    
+    // call controller to fetch cart by user id
     const result: any = await cartController.fetchCartByUser(id);
+    // if result is not received, throw error
     if (result.isError){
       throw result.error
     }
+    // if the process is successful, give success status
     res.status(200).json({
       statusCode: 200,
-      customMessage: " User Cart fetched successfully",
+      customMessage: "User Cart fetched successfully",
       data: result.data, 
     })
   }catch(error){

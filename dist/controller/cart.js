@@ -30,6 +30,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchCartByUser = exports.fetchCart = void 0;
 const cartRepository = __importStar(require("../repository/cart"));
+/**
+ * @description function for adding to the cart
+ * @param cartDetails
+ * @returns
+ */
 const addToCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // checking if the cart exists for the certain user
@@ -37,6 +42,7 @@ const addToCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function* (
         if (cartExists) {
             // if the cart exists, update the cart
             const update = yield cartRepository.updateCart(cartDetails);
+            // if update not found, throw an error
             if (!update) {
                 throw {
                     statusCode: 400,
@@ -47,6 +53,7 @@ const addToCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function* (
         // if the cart does not exists, then make a new cart
         else {
             const result = yield cartRepository.addToCart(cartDetails);
+            // if result is not found, throw an error
             if (!result) {
                 throw {
                     statusCode: 400,
@@ -62,7 +69,9 @@ const addToCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function* (
 });
 exports.fetchCart = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // call cartRepository for fetching cart
         const result = yield cartRepository.fetchCartDetails();
+        // if result is not found, the cart does not exists, throw an error
         if (!result) {
             throw {
                 statusCode: 400,
@@ -77,8 +86,9 @@ exports.fetchCart = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.fetchCartByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // call cartRepository to fetch cart by user id
         const result = yield cartRepository.fetchCartByUser(id);
-        console.log(result, "resultttttttttttttttttttttttttttt");
+        // if result is not success, throw an error
         if (!result.success) {
             throw {
                 statusCode: 400,
@@ -90,7 +100,9 @@ exports.fetchCartByUser = (id) => __awaiter(void 0, void 0, void 0, function* ()
             // result.data.cartItems.forEach((item,index)=>{
             //   cartItems[item.product.to]
             // })
+            // call cart Repository to fetch Product details of index 0
             const productInformation = yield cartRepository.fetchProductDetails(result.data.cartItems[0].product);
+            // if productInformation is not available, throw error
             if (!productInformation) {
                 throw {
                     customCode: 400,

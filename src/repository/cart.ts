@@ -1,8 +1,8 @@
 import { Cart } from "../db-init/model/cart";
-import {Product} from "../db-init/model/product"
+import { Product } from "../db-init/model/product";
 
 /**
- * @description mongoose method for add a cart
+ * @description mongoose method for adding product to a cart
  * @param cartDetails
  * @returns
  */
@@ -50,45 +50,50 @@ export const updateCart = async (cartDetails: any) => {
   }
 };
 
-export const fetchCartDetails = async() =>{
-  try{
-    const result = await Cart.find({})
-    return{ data: result}
-  }catch(error){
-    console.log(error)
+/**
+ * @description mongoose method for fetching the details of all the carts
+ * @returns
+ */
+export const fetchCartDetails = async () => {
+  try {
+    const result = await Cart.find({});
+    return { data: result };
+  } catch (error) {
+    console.log(error);
   }
-}
+};
 
-export const fetchCartByUser = async(id:any) =>{
-  try{
-    const result = await Cart.findOne({user: id})
+/**
+ * @description mongoose method for fetching the cart by user id
+ * @param id
+ * @returns
+ */
+export const fetchCartByUser = async (id: any) => {
+  try {
+    const result = await Cart.findOne({ user: id });
     // .select("_id_type, quantity")
     // console.log(result, "result")
-    return{
+    return {
       success: true,
-      data: result
-    }
-  }catch(error){
-    return{ success: false, error}
+      data: result,
+    };
+  } catch (error) {
+    return { success: false, error };
   }
-}
+};
 
-export const fetchProductDetails = async(id: any) =>{
-  try{
-    const result = await Product.findOne({_id:id})
-    .select("_id_type, name price")
-    console.log(id,result, "fetch by idddddddd")
-    return {success: true,
-      data: result } 
-  }catch(error){
-    return{ success: false}
+/**
+ * @description mongoose method for fetching product details
+ * @param id
+ * @returns
+ */
+export const fetchProductDetails = async (id: any) => {
+  try {
+    const result = await Product.findOne({ _id: id })
+      // selecting id, name and price from the product detail
+      .select("_id_type, name price");
+    return { success: true, data: result };
+  } catch (error) {
+    return { success: false };
   }
-}
-
-// export const fetchProductDetails = async(id: any) =>{
-//   try{
-//     const result = await Product.aggregate(cartItems:{$map:{}})
-//   }catch(error){
-//     return{success: false}
-//   }
-// }
+};

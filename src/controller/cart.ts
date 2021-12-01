@@ -1,6 +1,10 @@
 import * as cartRepository from "../repository/cart";
-import * as productRepository from "../repository/product"
 
+/**
+ * @description function for adding to the cart
+ * @param cartDetails
+ * @returns
+ */
 const addToCart = async (cartDetails: any) => {
   try {
     // checking if the cart exists for the certain user
@@ -8,6 +12,7 @@ const addToCart = async (cartDetails: any) => {
     if (cartExists) {
       // if the cart exists, update the cart
       const update = await cartRepository.updateCart(cartDetails);
+      // if update not found, throw an error
       if (!update) {
         throw {
           statusCode: 400,
@@ -18,6 +23,7 @@ const addToCart = async (cartDetails: any) => {
     // if the cart does not exists, then make a new cart
     else {
       const result = await cartRepository.addToCart(cartDetails);
+      // if result is not found, throw an error
       if (!result) {
         throw {
           statusCode: 400,
@@ -25,7 +31,6 @@ const addToCart = async (cartDetails: any) => {
         };
       }
     }
-
     return { isError: false };
   } catch (error) {
     return { isError: true, error };
@@ -34,7 +39,9 @@ const addToCart = async (cartDetails: any) => {
 
 export const fetchCart = async () => {
   try {
+    // call cartRepository for fetching cart
     const result: any = await cartRepository.fetchCartDetails();
+    // if result is not found, the cart does not exists, throw an error
     if (!result) {
       throw {
         statusCode: 400,
@@ -49,9 +56,9 @@ export const fetchCart = async () => {
 
 export const fetchCartByUser = async (id: any) => {
   try {
+    // call cartRepository to fetch cart by user id
     const result: any = await cartRepository.fetchCartByUser(id);
-    console.log(result, "resultttttttttttttttttttttttttttt")
-    
+    // if result is not success, throw an error
     if (!result.success) {
       throw {
         statusCode: 400,
@@ -62,7 +69,11 @@ export const fetchCartByUser = async (id: any) => {
       // result.data.cartItems.forEach((item,index)=>{
       //   cartItems[item.product.to]
       // })
-      const productInformation =await cartRepository.fetchProductDetails(result.data.cartItems[0].product);
+      // call cart Repository to fetch Product details of index 0
+      const productInformation = await cartRepository.fetchProductDetails(
+        result.data.cartItems[0].product
+      );
+      // if productInformation is not available, throw error
       if (!productInformation) {
         throw {
           customCode: 400,

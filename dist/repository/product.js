@@ -12,6 +12,11 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.fetchProductByCategoryId = exports.fetchCategoryById = exports.fetchProductById = exports.fetchProductDetails = exports.createProduct = exports.fetchProduct = void 0;
 const product_1 = require("../db-init/model/product");
 const categories_1 = require("../db-init/model/categories");
+/**
+ * @description mongoose method for fetching product by name
+ * @param name
+ * @returns
+ */
 exports.fetchProduct = (name) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_1.Product.findOne({ name: name });
@@ -21,6 +26,11 @@ exports.fetchProduct = (name) => __awaiter(void 0, void 0, void 0, function* () 
         console.log(error);
     }
 });
+/**
+ * @description mongoose method for creating product
+ * @param productDetails
+ * @returns
+ */
 exports.createProduct = (productDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield product_1.Product.create(productDetails);
@@ -30,6 +40,10 @@ exports.createProduct = (productDetails) => __awaiter(void 0, void 0, void 0, fu
         console.log(error);
     }
 });
+/**
+ * @description mongoose method for fetching all the products
+ * @returns
+ */
 exports.fetchProductDetails = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_1.Product.find({});
@@ -39,12 +53,15 @@ exports.fetchProductDetails = () => __awaiter(void 0, void 0, void 0, function* 
         console.log(error);
     }
 });
-// ****************************************************************************************
+/**
+ * @description mongoose method for fetching product by id
+ * @param id
+ * @returns
+ */
 exports.fetchProductById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_1.Product.findById(id);
         //  .select("_id_type")
-        console.log(result, id, "fetch by idddddddd from product...");
         return { success: true,
             data: result };
     }
@@ -52,7 +69,11 @@ exports.fetchProductById = (id) => __awaiter(void 0, void 0, void 0, function* (
         return { success: false };
     }
 });
-// ********************************************************************************************
+/**
+ * @description mongoose emthod for fetching category by id
+ * @param id
+ * @returns
+ */
 exports.fetchCategoryById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield categories_1.Category.findById(id)
@@ -66,6 +87,11 @@ exports.fetchCategoryById = (id) => __awaiter(void 0, void 0, void 0, function* 
         return { success: false };
     }
 });
+/**
+ * @description mongoose method for fetching category from product
+ * @param category
+ * @returns
+ */
 exports.fetchProductByCategoryId = (category) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_1.Product.find({ category: category });

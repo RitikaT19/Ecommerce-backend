@@ -11,6 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userAdded = exports.fetchUser = void 0;
 const user_1 = require("../db-init/model/user");
+/**
+ * @description fetch by email
+ * @param email
+ * @returns
+ */
 exports.fetchUser = (email) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let result = yield user_1.User.findOne({ email: email });
@@ -20,6 +25,11 @@ exports.fetchUser = (email) => __awaiter(void 0, void 0, void 0, function* () {
         return false;
     }
 });
+/**
+ * @description create a user
+ * @param userDetails
+ * @returns
+ */
 exports.userAdded = (userDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         yield user_1.User.create({

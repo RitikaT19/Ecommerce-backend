@@ -20,10 +20,13 @@ router.post(
         createdBy: req.user._id
       };
 
+      // call controller
       const result: any = await productController.createProduct(productObj);
+      // if result is not received, throw error
       if (result.isError) {
         throw result.error;
       }
+      // if process is successful, give success code
       res.status(200).json({
         customCode: 200,
         customMessage: "product created successfully",
@@ -37,7 +40,9 @@ router.post(
 router.get("/get_product",
 async(req: Request, res: Response, next: NextFunction) =>{
   try{
+    // call controller to fetch product
     const result: any = await productController.fetchProduct();
+    // if result is not received, throw error
     if(result.isError){
       throw result.error;
     }
@@ -53,8 +58,11 @@ async(req: Request, res: Response, next: NextFunction) =>{
 
 router.get("/:id", async(req: Request, res: Response, next: NextFunction)=>{
   try{
+    // get id into params
     const {id} = req.params;
+    // call controller 
     const result: any = await productController.fetchProductByCategoryId(id)
+    // if result is not received, throw error
     if(result.isError){
       throw result.error; 
     }
@@ -67,11 +75,14 @@ router.get("/:id", async(req: Request, res: Response, next: NextFunction)=>{
     next(error)
   }
 })
-// =====================================================================================================
+
+
 router.get("/prod/:id", async(req: Request, res: Response, next: NextFunction)=>{
   try{
+    // take id in params
     const {id} = req.params;
     const result: any = await productController.fetchProductById(id)
+    // if result is not received, throw error
     if(result.isError){
       throw result.error; 
     }
@@ -84,7 +95,5 @@ router.get("/prod/:id", async(req: Request, res: Response, next: NextFunction)=>
     next(error)
   }
 })
-
-// router.get("/:id", productRepository.getProductsById);
 
 export default router;

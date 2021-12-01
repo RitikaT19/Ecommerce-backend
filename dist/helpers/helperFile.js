@@ -6,14 +6,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.adminMiddleware = exports.authenticateToken = exports.getJWT = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const SECRET_KEY = "E_COMMERCE_SECRET_KEY";
+// create jwt
 exports.getJWT = (payload) => {
     return jsonwebtoken_1.default.sign(payload, SECRET_KEY, {
         expiresIn: "1d",
     });
 };
+// function for authenticating the token
 exports.authenticateToken = (req, res, next) => {
+    // request tokein in authentication header
     const authHeader = req.headers["authorization"];
     const token = authHeader && authHeader.split(" ")[1];
+    // if token is not provided, then throw an error
     if (token == null) {
         throw {
             statusCode: 401,
@@ -21,6 +25,7 @@ exports.authenticateToken = (req, res, next) => {
         };
     }
     try {
+        // verify token
         const decoded = jsonwebtoken_1.default.verify(token, SECRET_KEY);
         req.user = decoded;
         next();

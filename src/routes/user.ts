@@ -37,6 +37,7 @@ router.post(
   "/login",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // if either of the parameter is missing, throw error
       const { email, password } = req.body;
       if (!email || !password) {
         throw {
@@ -46,6 +47,7 @@ router.post(
       }
 
       const result: any = await userController.login(req.body);
+      // if result is not received, throw error
       if (result.isError) {
         throw result.error;
       }

@@ -44,6 +44,7 @@ router.post("/sign_up", (req, res, next) => __awaiter(void 0, void 0, void 0, fu
 }));
 router.post("/login", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // if either of the parameter is missing, throw error
         const { email, password } = req.body;
         if (!email || !password) {
             throw {
@@ -52,6 +53,7 @@ router.post("/login", (req, res, next) => __awaiter(void 0, void 0, void 0, func
             };
         }
         const result = yield user_1.default.login(req.body);
+        // if result is not received, throw error
         if (result.isError) {
             throw result.error;
         }

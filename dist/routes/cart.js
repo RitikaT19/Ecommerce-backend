@@ -41,10 +41,13 @@ router.post("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(v
 }));
 router.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // call controller to fetch cart
         const result = yield cart_1.default.fetchCart();
+        // if result is not received, throw error
         if (result.isError) {
             throw result.error;
         }
+        // if process is successful, give succuss status code
         res.status(200).json({
             statusCode: 200,
             customMessage: "Cart fetched successfully",
@@ -58,13 +61,16 @@ router.get("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
 router.get(`/userCart`, helperFile_1.authenticateToken, (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const id = req.user._id;
+        // call controller to fetch cart by user id
         const result = yield cart_1.default.fetchCartByUser(id);
+        // if result is not received, throw error
         if (result.isError) {
             throw result.error;
         }
+        // if the process is successful, give success status
         res.status(200).json({
             statusCode: 200,
-            customMessage: " User Cart fetched successfully",
+            customMessage: "User Cart fetched successfully",
             data: result.data,
         });
     }

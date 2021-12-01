@@ -40,9 +40,10 @@ const registerUser = (userDetails) => __awaiter(void 0, void 0, void 0, function
         if (userValidation.error) {
             throw {
                 statusCode: 400,
-                customMessage: userValidation.error.details[0].message
+                customMessage: userValidation.error.details[0].message,
             };
         }
+        // call repo to fetch user email
         const existingEmail = yield userRepository.fetchUser(userDetails.email);
         // if the user email exists, throw an error
         if (existingEmail) {
@@ -52,13 +53,16 @@ const registerUser = (userDetails) => __awaiter(void 0, void 0, void 0, function
             };
         }
         let { firstName, lastName, email, password } = userDetails;
+        // hash password
         password = yield bcrypt.hash(password, 10);
+        // call repo to add user
         const result = yield userRepository.userAdded({
             firstName,
             lastName,
             email,
             password,
         });
+        // if result is not received, throw error
         if (!result) {
             throw {
                 statusCode: 400,

@@ -32,6 +32,11 @@ const helperFile_1 = require("../helpers/helperFile");
 const adminRepository = __importStar(require("../repository/admin"));
 const user_1 = require("../db-init/model/user");
 const bcrypt = require("bcrypt");
+/**
+ * @description function for registering an admin
+ * @param adminDetails
+ * @returns
+ */
 const registerAdmin = (adminDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // validate user
@@ -40,9 +45,10 @@ const registerAdmin = (adminDetails) => __awaiter(void 0, void 0, void 0, functi
         if (userValidation.error) {
             throw {
                 statusCode: 400,
-                customMessage: userValidation.error.details[0].message
+                customMessage: userValidation.error.details[0].message,
             };
         }
+        // fetch email from the repository
         const existingEmail = yield adminRepository.fetchAdmin(adminDetails.email);
         // if the user email exists, throw an error
         if (existingEmail) {
@@ -52,13 +58,16 @@ const registerAdmin = (adminDetails) => __awaiter(void 0, void 0, void 0, functi
             };
         }
         let { firstName, lastName, email, password } = adminDetails;
+        // hashing the password
         password = yield bcrypt.hash(password, 10);
+        // getting result rom adminRepository
         const result = yield adminRepository.adminAdded({
             firstName,
             lastName,
             email,
             password,
         });
+        // if result is not found, throw error
         if (!result) {
             throw {
                 statusCode: 400,
@@ -71,6 +80,11 @@ const registerAdmin = (adminDetails) => __awaiter(void 0, void 0, void 0, functi
         return { isError: true, error };
     }
 });
+/**
+ * @description function for logging in an admin
+ * @param adminDetails
+ * @returns
+ */
 const login = (adminDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         // calling admin repository to fetch admin detail

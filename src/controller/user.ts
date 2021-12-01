@@ -9,12 +9,13 @@ const registerUser = async (userDetails: IAddUser) => {
     // validate user
     const userValidation: any = validateUser(userDetails);
     // if there is error, throw error
-    if(userValidation.error){
-      throw{
+    if (userValidation.error) {
+      throw {
         statusCode: 400,
-        customMessage: userValidation.error.details[0].message
-      }
+        customMessage: userValidation.error.details[0].message,
+      };
     }
+    // call repo to fetch user email
     const existingEmail = await userRepository.fetchUser(userDetails.email);
     // if the user email exists, throw an error
     if (existingEmail) {
@@ -25,15 +26,16 @@ const registerUser = async (userDetails: IAddUser) => {
     }
 
     let { firstName, lastName, email, password } = userDetails;
-
+    // hash password
     password = await bcrypt.hash(password, 10);
-
+    // call repo to add user
     const result = await userRepository.userAdded({
       firstName,
       lastName,
       email,
       password,
     });
+    // if result is not received, throw error
     if (!result) {
       throw {
         statusCode: 400,
@@ -76,7 +78,7 @@ const login = async (userDetails: IUserLogin) => {
       });
 
       return { result: result.data, data: token };
-    } 
+    }
     // else throw error
     else {
       throw {

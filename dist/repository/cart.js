@@ -13,7 +13,7 @@ exports.fetchProductDetails = exports.fetchCartByUser = exports.fetchCartDetails
 const cart_1 = require("../db-init/model/cart");
 const product_1 = require("../db-init/model/product");
 /**
- * @description mongoose method for add a cart
+ * @description mongoose method for adding product to a cart
  * @param cartDetails
  * @returns
  */
@@ -58,6 +58,10 @@ exports.updateCart = (cartDetails) => __awaiter(void 0, void 0, void 0, function
         console.log(error);
     }
 });
+/**
+ * @description mongoose method for fetching the details of all the carts
+ * @returns
+ */
 exports.fetchCartDetails = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield cart_1.Cart.find({});
@@ -67,6 +71,11 @@ exports.fetchCartDetails = () => __awaiter(void 0, void 0, void 0, function* () 
         console.log(error);
     }
 });
+/**
+ * @description mongoose method for fetching the cart by user id
+ * @param id
+ * @returns
+ */
 exports.fetchCartByUser = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield cart_1.Cart.findOne({ user: id });
@@ -74,30 +83,27 @@ exports.fetchCartByUser = (id) => __awaiter(void 0, void 0, void 0, function* ()
         // console.log(result, "result")
         return {
             success: true,
-            data: result
+            data: result,
         };
     }
     catch (error) {
         return { success: false, error };
     }
 });
+/**
+ * @description mongoose method for fetching product details
+ * @param id
+ * @returns
+ */
 exports.fetchProductDetails = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield product_1.Product.findOne({ _id: id })
+            // selecting id, name and price from the product detail
             .select("_id_type, name price");
-        console.log(id, result, "fetch by idddddddd");
-        return { success: true,
-            data: result };
+        return { success: true, data: result };
     }
     catch (error) {
         return { success: false };
     }
 });
-// export const fetchProductDetails = async(id: any) =>{
-//   try{
-//     const result = await Product.aggregate(cartItems:{$map:{}})
-//   }catch(error){
-//     return{success: false}
-//   }
-// }
 //# sourceMappingURL=cart.js.map

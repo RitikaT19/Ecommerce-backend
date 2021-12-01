@@ -32,14 +32,18 @@ exports.updateCategory = exports.deleteCategory = void 0;
 const categoryRepository = __importStar(require("../repository/category"));
 const createCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const existingSlug = yield categoryRepository.fetchCategoryName(categoryDetails.name);
-        if (existingSlug) {
+        // call repo to fetch category by name
+        const existingName = yield categoryRepository.fetchCategoryName(categoryDetails.name);
+        // if category name already exists, throw an error
+        if (existingName) {
             throw {
                 statusCode: 400,
                 customMessage: "Category name already exists",
             };
         }
+        // if category name does not exists, call repo to create a new category
         const result = yield categoryRepository.createCategory(categoryDetails);
+        // if result is not received, throw error
         if (!result) {
             throw {
                 statusCode: 400,
@@ -54,7 +58,9 @@ const createCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, fu
 });
 const fetchCategory = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // call repo to fetch category
         const result = yield categoryRepository.fetchCategory();
+        // if unable to fetch category, throw error
         if (!result.success) {
             throw {
                 statusCode: 400,
@@ -72,13 +78,16 @@ const fetchCategory = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.deleteCategory = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // call repo to fetch category by id
         const result = yield categoryRepository.fetchCategoryById(id);
-        if (result) {
+        // if result is not received, throw an errror
+        if (!result) {
             throw {
                 statusCode: 400,
                 customMessage: "Category not found",
             };
         }
+        // if category exists, then call repo to delete the category
         const categoryDeleted = yield categoryRepository.deleteCategory(id);
         if (!categoryDeleted) {
             throw {
@@ -93,19 +102,14 @@ exports.deleteCategory = (id) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.updateCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // call repo to update category by id
         const result = yield categoryRepository.updateCategory(categoryDetails);
         if (!result) {
             throw {
                 statusCode: 400,
-                customMessage: "category not found"
+                customMessage: "category not found",
             };
         }
-        console.log(result, "update categoryyyy");
-        // const updatedCategory: any = await categoryRepository.fetchCategoryById(categoryDetails.id)
-        // const categoryUpdate  = ({
-        //     _id: updatedCategory._id,
-        //     name: updatedCategory.name
-        // })
         return { isError: false, data: result };
     }
     catch (error) {

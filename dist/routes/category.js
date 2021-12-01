@@ -58,17 +58,21 @@ router.get("/get_category", (req, res, next) => __awaiter(void 0, void 0, void 0
 }));
 router.delete("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // take id in params
         const { id } = req.params;
+        // if id is not given, throw error
         if (!id) {
             throw {
                 statusCode: 400,
                 customMessage: "Category not available",
             };
         }
+        // if result is not rerceived, throw error
         const result = category_1.default.deleteCategory(id);
         if (result.isError) {
             throw result.error;
         }
+        // if the process is successful, give success code
         res.status(200).json({
             statusCode: 200,
             customMessage: "Category deleted successfully!",
@@ -80,17 +84,21 @@ router.delete("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, func
 }));
 router.put("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // get request body
         const { id, name } = req.body;
+        // if either of the parameter is missing, throw error
         if (!id || !name) {
             throw {
                 statusCode: 400,
                 customMessage: " All parameters are required",
             };
         }
+        // call controller
         const result = yield category_1.default.updateCategory(req.body);
         if (result.isError) {
             throw result.isError;
         }
+        // if process is successful, give status code
         res.status(200).json({
             statusCode: 200,
             customMessage: "Category updated successfully!",

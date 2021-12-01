@@ -44,14 +44,18 @@ router.post("/sign_up", (req, res, next) => __awaiter(void 0, void 0, void 0, fu
 }));
 router.post("/login", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // getting request body
         const { email, password } = req.body;
+        // if either of the parameter is missing, throw an error
         if (!email || !password) {
             throw {
                 statusCode: 400,
                 customMessage: "All parameters are required",
             };
         }
+        // call controller to fetch result
         const result = yield admin_1.default.login(req.body);
+        // if result is not available, throw error
         if (result.isError) {
             throw result.error;
         }

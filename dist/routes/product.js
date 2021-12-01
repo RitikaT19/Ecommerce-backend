@@ -27,10 +27,13 @@ router.post("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(v
             productPicture: req.file,
             createdBy: req.user._id
         };
+        // call controller
         const result = yield product_1.default.createProduct(productObj);
+        // if result is not received, throw error
         if (result.isError) {
             throw result.error;
         }
+        // if process is successful, give success code
         res.status(200).json({
             customCode: 200,
             customMessage: "product created successfully",
@@ -42,7 +45,9 @@ router.post("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(v
 }));
 router.get("/get_product", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // call controller to fetch product
         const result = yield product_1.default.fetchProduct();
+        // if result is not received, throw error
         if (result.isError) {
             throw result.error;
         }
@@ -58,8 +63,11 @@ router.get("/get_product", (req, res, next) => __awaiter(void 0, void 0, void 0,
 }));
 router.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // get id into params
         const { id } = req.params;
+        // call controller 
         const result = yield product_1.default.fetchProductByCategoryId(id);
+        // if result is not received, throw error
         if (result.isError) {
             throw result.error;
         }
@@ -73,11 +81,12 @@ router.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, functio
         next(error);
     }
 }));
-// =====================================================================================================
 router.get("/prod/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // take id in params
         const { id } = req.params;
         const result = yield product_1.default.fetchProductById(id);
+        // if result is not received, throw error
         if (result.isError) {
             throw result.error;
         }
@@ -91,6 +100,5 @@ router.get("/prod/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         next(error);
     }
 }));
-// router.get("/:id", productRepository.getProductsById);
 exports.default = router;
 //# sourceMappingURL=product.js.map
