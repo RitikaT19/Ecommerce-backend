@@ -15,7 +15,7 @@ const createProduct = async (productDetails: any) => {
     }
     // if product name does not exists, call repo to create a new product
     const result = await productRepository.createProduct(productDetails);
-    // if result is not received, throw an errror
+    // if result is not received, throw an error
     if (!result) {
       throw {
         statusCode: 400,

@@ -43,7 +43,7 @@ const createProduct = (productDetails) => __awaiter(void 0, void 0, void 0, func
         }
         // if product name does not exists, call repo to create a new product
         const result = yield productRepository.createProduct(productDetails);
-        // if result is not received, throw an errror
+        // if result is not received, throw an error
         if (!result) {
             throw {
                 statusCode: 400,

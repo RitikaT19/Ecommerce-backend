@@ -78,18 +78,9 @@ const fetchCategory = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.deleteCategory = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // call repo to fetch category by id
-        const result = yield categoryRepository.fetchCategoryById(id);
-        // if result is not received, throw an errror
-        if (!result) {
-            throw {
-                statusCode: 400,
-                customMessage: "Category not found",
-            };
-        }
         // if category exists, then call repo to delete the category
-        const categoryDeleted = yield categoryRepository.deleteCategory(id);
-        if (!categoryDeleted) {
+        const result = yield categoryRepository.deleteCategory(id);
+        if (!result) {
             throw {
                 statusCode: 400,
                 customMessage: "Unable to delete category",

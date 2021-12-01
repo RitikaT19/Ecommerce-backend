@@ -18,7 +18,8 @@ const categories_1 = require("../db-init/model/categories");
  */
 exports.createCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield categories_1.Category.create(categoryDetails);
+        const result = yield categories_1.Category.create(categoryDetails);
+        // console.log(result, "creating category name")
         return true;
     }
     catch (error) {
@@ -46,6 +47,7 @@ exports.fetchCategory = () => __awaiter(void 0, void 0, void 0, function* () {
 exports.fetchCategoryName = (name) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield categories_1.Category.findOne({ name: name });
+        // console.log(result, "fetching category name")
         return result;
     }
     catch (error) {
@@ -72,11 +74,11 @@ exports.fetchCategoryById = (id) => __awaiter(void 0, void 0, void 0, function* 
  */
 exports.deleteCategory = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield categories_1.Category.findByIdAndDelete(id);
+        const result = yield categories_1.Category.findByIdAndDelete(id);
         return true;
     }
     catch (error) {
-        console.log(error);
+        return false;
     }
 });
 /**

@@ -90,7 +90,7 @@ router.put("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         if (!id || !name) {
             throw {
                 statusCode: 400,
-                customMessage: " All parameters are required",
+                customMessage: "All parameters are required",
             };
         }
         // call controller

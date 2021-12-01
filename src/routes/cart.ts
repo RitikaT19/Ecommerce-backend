@@ -11,7 +11,7 @@ router.post(
     try {
       // request body
       const cartObj = { user: req.user._id, cartItems: req.body.cartItems };
-      console.log(cartObj,"cart objecttttttt")
+      // console.log(cartObj,"cart objecttttttt")
       // calling cartController
       const result: any = await cartController.addToCart(cartObj);
       // if there is error, return error

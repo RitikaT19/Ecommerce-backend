@@ -21,7 +21,7 @@ router.post("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(v
     try {
         // request body
         const cartObj = { user: req.user._id, cartItems: req.body.cartItems };
-        console.log(cartObj, "cart objecttttttt");
+        // console.log(cartObj,"cart objecttttttt")
         // calling cartController
         const result = yield cart_1.default.addToCart(cartObj);
         // if there is error, return error

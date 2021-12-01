@@ -50,18 +50,9 @@ const fetchCategory = async () => {
 
 export const deleteCategory = async (id: string) => {
   try {
-    // call repo to fetch category by id
-    const result = await categoryRepository.fetchCategoryById(id);
-    // if result is not received, throw an errror
-    if (!result) {
-      throw {
-        statusCode: 400,
-        customMessage: "Category not found",
-      };
-    }
     // if category exists, then call repo to delete the category
-    const categoryDeleted = await categoryRepository.deleteCategory(id);
-    if (!categoryDeleted) {
+    const result = await categoryRepository.deleteCategory(id);
+    if (!result) {
       throw {
         statusCode: 400,
         customMessage: "Unable to delete category",

@@ -7,7 +7,8 @@ import { Category } from "../db-init/model/categories";
  */
 export const createCategory = async (categoryDetails: any) => {
   try {
-    await Category.create(categoryDetails);
+    const result = await Category.create(categoryDetails);
+    // console.log(result, "creating category name")
     return true;
   } catch (error) {
     console.log(error);
@@ -34,6 +35,7 @@ export const fetchCategory = async () => {
 export const fetchCategoryName = async (name: string) => {
   try {
     const result = await Category.findOne({ name: name });
+    // console.log(result, "fetching category name")
     return result;
   } catch (error) {
     console.log(error);
@@ -43,7 +45,7 @@ export const fetchCategoryName = async (name: string) => {
  * @description mongoose method for fetching category by category id
  * @returns
  */
-export const fetchCategoryById = async (id: string) => {
+ export const fetchCategoryById = async (id: string) => {
   try {
     const result = await Category.findById({ id: id });
     return result;
@@ -52,17 +54,18 @@ export const fetchCategoryById = async (id: string) => {
   }
 };
 
+
 /**
  * @description mongoose emthod for deleting category
  * @param id
  * @returns
  */
-export const deleteCategory = async (id: string) => {
+ export const deleteCategory = async (id: string) => {
   try {
-    await Category.findByIdAndDelete(id);
+    const result = await Category.findByIdAndDelete(id);
     return true;
   } catch (error) {
-    console.log(error);
+    return false;
   }
 };
 
