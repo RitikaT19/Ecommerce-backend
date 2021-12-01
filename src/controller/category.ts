@@ -65,7 +65,7 @@ export const deleteCategory = async (id: string) => {
 
 export const updateCategory = async(categoryDetails: any)=>{
     try{
-        const result = await categoryRepository.fetchCategoryById(categoryDetails.id);
+        const result = await categoryRepository.updateCategory(categoryDetails);
         if(!result){
             throw{
                 statusCode: 400,
@@ -73,7 +73,7 @@ export const updateCategory = async(categoryDetails: any)=>{
             }
         }
 
-        // await categoryRepository.updateCategory(categoryDetails);
+        console.log(result, "update categoryyyy")
 
         // const updatedCategory: any = await categoryRepository.fetchCategoryById(categoryDetails.id)
         // const categoryUpdate  = ({

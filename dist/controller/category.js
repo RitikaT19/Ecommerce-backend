@@ -93,14 +93,14 @@ exports.deleteCategory = (id) => __awaiter(void 0, void 0, void 0, function* () 
 });
 exports.updateCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield categoryRepository.fetchCategoryById(categoryDetails.id);
+        const result = yield categoryRepository.updateCategory(categoryDetails);
         if (!result) {
             throw {
                 statusCode: 400,
                 customMessage: "category not found"
             };
         }
-        // await categoryRepository.updateCategory(categoryDetails);
+        console.log(result, "update categoryyyy");
         // const updatedCategory: any = await categoryRepository.fetchCategoryById(categoryDetails.id)
         // const categoryUpdate  = ({
         //     _id: updatedCategory._id,
