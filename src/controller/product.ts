@@ -102,7 +102,24 @@ export const deleteProduct = async (id: string) => {
     }
     return { isError: false };
   } catch (error) {
-    return{isError: true, error}
+    return { isError: true, error };
+  }
+};
+
+export const updateProduct = async (productDetails: any) => {
+  try {
+    // call repo to update the product
+    const result: any = await productRepository.updateProduct(productDetails)  
+    // if result is not received, throw an error
+    if (!result) {
+      throw {
+        statusCode: 400,
+        customMessage: "Product could not be updated",
+      };
+    }
+    return { isError: false, data: result };
+  } catch (error) {
+    return { isError: true, error };
   }
 };
 
@@ -111,5 +128,6 @@ export default {
   fetchProduct,
   fetchProductByCategoryId,
   fetchProductById,
-  deleteProduct
+  deleteProduct,
+  updateProduct,
 };

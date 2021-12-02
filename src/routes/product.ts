@@ -116,4 +116,30 @@ router.delete("/:id", async(req:Request, res: Response, next:NextFunction)=>{
   }
 })
 
+router.put("/", async(req:Request, res: Response, next: NextFunction)=>{
+  try{
+    const {id, name, price, quantity, description, category} = req.body;
+    if(!(id || name || price || quantity || description || category)){
+      throw{
+        statusCode: 400,
+        customMessage: "All parameters are required"
+      }
+    }
+    const result:any = await productController.updateProduct(req.body);
+    if(!result){
+      throw{
+        statusCode: 400,
+        customMessage: "could not update the product"
+      }
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      customMessage: "Product updated successfully"
+    })
+  }catch(error){
+    next(error)
+  }
+})
+
 export default router;

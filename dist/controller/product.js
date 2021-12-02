@@ -28,7 +28,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.fetchProductByCategoryId = exports.fetchProductById = exports.fetchProduct = void 0;
+exports.updateProduct = exports.deleteProduct = exports.fetchProductByCategoryId = exports.fetchProductById = exports.fetchProduct = void 0;
 const productRepository = __importStar(require("../repository/product"));
 const createProduct = (productDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -132,11 +132,29 @@ exports.deleteProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
         return { isError: true, error };
     }
 });
+exports.updateProduct = (productDetails) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // call repo to update the product
+        const result = yield productRepository.updateProduct(productDetails);
+        // if result is not received, throw an error
+        if (!result) {
+            throw {
+                statusCode: 400,
+                customMessage: "Product could not be updated",
+            };
+        }
+        return { isError: false, data: result };
+    }
+    catch (error) {
+        return { isError: true, error };
+    }
+});
 exports.default = {
     createProduct,
     fetchProduct: exports.fetchProduct,
     fetchProductByCategoryId: exports.fetchProductByCategoryId,
     fetchProductById: exports.fetchProductById,
-    deleteProduct: exports.deleteProduct
+    deleteProduct: exports.deleteProduct,
+    updateProduct: exports.updateProduct,
 };
 //# sourceMappingURL=product.js.map

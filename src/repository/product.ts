@@ -101,3 +101,18 @@ export const deleteProduct = async(id: any)=>{
     return{success: false}
   }
 }
+
+export const updateProduct = async(productDetails: any) =>{
+  try{
+    const result = await Product.findByIdAndUpdate(productDetails.id,{
+      name: productDetails.name,
+      price: productDetails.price,
+      quantity: productDetails.quantity,
+      description: productDetails.description,
+      category: productDetails.category
+    })
+    return result
+  }catch(error){
+    return false
+  }
+}

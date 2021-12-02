@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteProduct = exports.fetchProductByCategoryId = exports.fetchCategoryById = exports.fetchProductById = exports.fetchProductDetails = exports.createProduct = exports.fetchProduct = void 0;
+exports.updateProduct = exports.deleteProduct = exports.fetchProductByCategoryId = exports.fetchCategoryById = exports.fetchProductById = exports.fetchProductDetails = exports.createProduct = exports.fetchProduct = void 0;
 const product_1 = require("../db-init/model/product");
 const categories_1 = require("../db-init/model/categories");
 /**
@@ -114,6 +114,21 @@ exports.deleteProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
     }
     catch (error) {
         return { success: false };
+    }
+});
+exports.updateProduct = (productDetails) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield product_1.Product.findByIdAndUpdate(productDetails.id, {
+            name: productDetails.name,
+            price: productDetails.price,
+            quantity: productDetails.quantity,
+            description: productDetails.description,
+            category: productDetails.category
+        });
+        return result;
+    }
+    catch (error) {
+        return false;
     }
 });
 //# sourceMappingURL=product.js.map

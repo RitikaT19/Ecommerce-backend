@@ -121,5 +121,30 @@ router.delete("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, func
         next(error);
     }
 }));
+router.put("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { id, name, price, quantity, description, category } = req.body;
+        if (!(id || name || price || quantity || description || category)) {
+            throw {
+                statusCode: 400,
+                customMessage: "All parameters are required"
+            };
+        }
+        const result = yield product_1.default.updateProduct(req.body);
+        if (!result) {
+            throw {
+                statusCode: 400,
+                customMessage: "could not update the product"
+            };
+        }
+        res.status(200).json({
+            statusCode: 200,
+            customMessage: "Product updated successfully"
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
 exports.default = router;
 //# sourceMappingURL=product.js.map
