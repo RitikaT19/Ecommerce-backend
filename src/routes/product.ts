@@ -1,8 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
-import * as productRepository from "../repository/product"
 import { authenticateToken } from "../helpers/helperFile";
 import productController from "../controller/product";
-import slugify from "slugify";
 const router = express.Router();
 
 router.post(
@@ -90,6 +88,28 @@ router.get("/prod/:id", async(req: Request, res: Response, next: NextFunction)=>
       statusCode: 200,
       customMessage: "Product fetched successfully",
       data: result,
+    })
+  }catch(error){
+    next(error)
+  }
+})
+
+router.delete("/:id", async(req:Request, res: Response, next:NextFunction)=>{
+  try{
+    // take id in params
+    const {id} = req.params
+    const result: any = await productController.deleteProduct(id);
+    // if result is not received, then throw an error
+    if(!result){
+      throw{
+        statusCode: 400,
+        customMessage: "Unable to delete product"
+      }
+    }
+
+    res.status(200).json({
+      statusCode: 200,
+      customMessage: "Product deleted successfully!"
     })
   }catch(error){
     next(error)

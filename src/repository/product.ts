@@ -50,7 +50,6 @@ export const fetchProductDetails = async() =>{
   try{
     const result = await Product.findOne({_id:id})
     //  .select("_id_type")
-    console.log(result,id, "fetch by idddddddd from product...")
     return {success: true,
       data: result } 
   }catch(error){
@@ -88,5 +87,17 @@ export const fetchProductByCategoryId = async(category: string) =>{
     }
   }catch(error){
     return{ success: false}
+  }
+}
+
+export const deleteProduct = async(id: any)=>{
+  try{
+    const result = await Product.findByIdAndDelete(id)
+    return {
+      result,
+      success: true
+    }
+  }catch(error){
+    return{success: false}
   }
 }

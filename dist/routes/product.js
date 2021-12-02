@@ -100,5 +100,26 @@ router.get("/prod/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, fu
         next(error);
     }
 }));
+router.delete("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // take id in params
+        const { id } = req.params;
+        const result = yield product_1.default.deleteProduct(id);
+        // if result is not received, then throw an error
+        if (!result) {
+            throw {
+                statusCode: 400,
+                customMessage: "Unable to delete product"
+            };
+        }
+        res.status(200).json({
+            statusCode: 200,
+            customMessage: "Product deleted successfully!"
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
 exports.default = router;
 //# sourceMappingURL=product.js.map

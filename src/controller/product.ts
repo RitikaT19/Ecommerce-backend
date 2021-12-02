@@ -45,21 +45,21 @@ export const fetchProduct = async () => {
   }
 };
 
-export const fetchProductById = async(id:any)=>{
-  try{
-      const result: any = await productRepository.fetchProductById(id);
-      if(!result){
-          throw{
-              statusCode: 400,
-              customMessage: "Some error occured while fetching products"
-          }
-      }
-      console.log(result, "from controller")
-      return{isError: false, data: result.data}
-  }catch(error){
-      return{ isError: true}
+export const fetchProductById = async (id: any) => {
+  try {
+    const result: any = await productRepository.fetchProductById(id);
+    if (!result) {
+      throw {
+        statusCode: 400,
+        customMessage: "Some error occured while fetching products",
+      };
+    }
+    console.log(result, "from controller");
+    return { isError: false, data: result.data };
+  } catch (error) {
+    return { isError: true };
   }
-}
+};
 
 export const fetchProductByCategoryId = async (id: string) => {
   try {
@@ -89,9 +89,27 @@ export const fetchProductByCategoryId = async (id: string) => {
   }
 };
 
+export const deleteProduct = async (id: string) => {
+  try {
+    // call repo to delete the product
+    const result = await productRepository.deleteProduct(id);
+    // if result is not received, throw error
+    if (!result) {
+      throw {
+        statusCode: 400,
+        customMessage: "Product could not be deleted!",
+      };
+    }
+    return { isError: false };
+  } catch (error) {
+    return{isError: true, error}
+  }
+};
+
 export default {
   createProduct,
   fetchProduct,
   fetchProductByCategoryId,
   fetchProductById,
+  deleteProduct
 };

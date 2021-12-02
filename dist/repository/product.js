@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchProductByCategoryId = exports.fetchCategoryById = exports.fetchProductById = exports.fetchProductDetails = exports.createProduct = exports.fetchProduct = void 0;
+exports.deleteProduct = exports.fetchProductByCategoryId = exports.fetchCategoryById = exports.fetchProductById = exports.fetchProductDetails = exports.createProduct = exports.fetchProduct = void 0;
 const product_1 = require("../db-init/model/product");
 const categories_1 = require("../db-init/model/categories");
 /**
@@ -62,7 +62,6 @@ exports.fetchProductById = (id) => __awaiter(void 0, void 0, void 0, function* (
     try {
         const result = yield product_1.Product.findOne({ _id: id });
         //  .select("_id_type")
-        console.log(result, id, "fetch by idddddddd from product...");
         return { success: true,
             data: result };
     }
@@ -99,6 +98,18 @@ exports.fetchProductByCategoryId = (category) => __awaiter(void 0, void 0, void 
         return {
             success: true,
             data: result
+        };
+    }
+    catch (error) {
+        return { success: false };
+    }
+});
+exports.deleteProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield product_1.Product.findByIdAndDelete(id);
+        return {
+            result,
+            success: true
         };
     }
     catch (error) {

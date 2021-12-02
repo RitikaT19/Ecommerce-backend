@@ -28,7 +28,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.fetchProductByCategoryId = exports.fetchProductById = exports.fetchProduct = void 0;
+exports.deleteProduct = exports.fetchProductByCategoryId = exports.fetchProductById = exports.fetchProduct = void 0;
 const productRepository = __importStar(require("../repository/product"));
 const createProduct = (productDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -79,7 +79,7 @@ exports.fetchProductById = (id) => __awaiter(void 0, void 0, void 0, function* (
         if (!result) {
             throw {
                 statusCode: 400,
-                customMessage: "Some error occured while fetching products"
+                customMessage: "Some error occured while fetching products",
             };
         }
         console.log(result, "from controller");
@@ -115,10 +115,28 @@ exports.fetchProductByCategoryId = (id) => __awaiter(void 0, void 0, void 0, fun
         return { isError: true, error };
     }
 });
+exports.deleteProduct = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // call repo to delete the product
+        const result = yield productRepository.deleteProduct(id);
+        // if result is not received, throw error
+        if (!result) {
+            throw {
+                statusCode: 400,
+                customMessage: "Product could not be deleted!",
+            };
+        }
+        return { isError: false };
+    }
+    catch (error) {
+        return { isError: true, error };
+    }
+});
 exports.default = {
     createProduct,
     fetchProduct: exports.fetchProduct,
     fetchProductByCategoryId: exports.fetchProductByCategoryId,
     fetchProductById: exports.fetchProductById,
+    deleteProduct: exports.deleteProduct
 };
 //# sourceMappingURL=product.js.map
