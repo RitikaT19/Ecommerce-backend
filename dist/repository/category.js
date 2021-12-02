@@ -60,11 +60,14 @@ exports.fetchCategoryName = (name) => __awaiter(void 0, void 0, void 0, function
  */
 exports.fetchCategoryById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield categories_1.Category.findById({ id: id });
-        return result;
+        const result = yield categories_1.Category.findOne({ _id: id });
+        //  .select("_id_type")
+        console.log(result, id, "fetch by idddddddd from product...");
+        return { success: true,
+            data: result };
     }
     catch (error) {
-        console.log(error);
+        return { success: false };
     }
 });
 /**

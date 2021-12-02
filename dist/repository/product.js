@@ -60,8 +60,9 @@ exports.fetchProductDetails = () => __awaiter(void 0, void 0, void 0, function* 
  */
 exports.fetchProductById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const result = yield product_1.Product.findById(id);
+        const result = yield product_1.Product.findOne({ _id: id });
         //  .select("_id_type")
+        console.log(result, id, "fetch by idddddddd from product...");
         return { success: true,
             data: result };
     }

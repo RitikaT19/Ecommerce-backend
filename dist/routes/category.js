@@ -108,5 +108,24 @@ router.put("/", (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         next(error);
     }
 }));
+router.get("/:id", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        // take id in params
+        const { id } = req.params;
+        const result = yield category_1.default.fetchCategoryById(id);
+        // if result is not received, throw error
+        if (result.isError) {
+            throw result.error;
+        }
+        res.status(200).json({
+            statusCode: 200,
+            customMessage: "category fetched successfully",
+            data: result,
+        });
+    }
+    catch (error) {
+        next(error);
+    }
+}));
 exports.default = router;
 //# sourceMappingURL=category.js.map

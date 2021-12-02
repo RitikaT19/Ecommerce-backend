@@ -28,7 +28,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateCategory = exports.deleteCategory = void 0;
+exports.fetchCategoryById = exports.updateCategory = exports.deleteCategory = void 0;
 const categoryRepository = __importStar(require("../repository/category"));
 const createCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -107,10 +107,27 @@ exports.updateCategory = (categoryDetails) => __awaiter(void 0, void 0, void 0, 
         return { isError: true, error };
     }
 });
+exports.fetchCategoryById = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield categoryRepository.fetchCategoryById(id);
+        if (!result) {
+            throw {
+                statusCode: 400,
+                customMessage: "Some error occured while fetching category"
+            };
+        }
+        console.log(result, "from controller");
+        return { isError: false, data: result.data };
+    }
+    catch (error) {
+        return { isError: true };
+    }
+});
 exports.default = {
     createCategory,
     fetchCategory,
     deleteCategory: exports.deleteCategory,
     updateCategory: exports.updateCategory,
+    fetchCategoryById: exports.fetchCategoryById
 };
 //# sourceMappingURL=category.js.map

@@ -45,22 +45,21 @@ export const fetchProduct = async () => {
   }
 };
 
-export const fetchProductById = async (id: any) => {
-  try {
-    // call repo to fetch product by id
-    const result: any = await productRepository.fetchProductById(id);
-    // if result is not found, throw error
-    if (!result) {
-      throw {
-        statusCode: 400,
-        customMessage: "Some error occured while fetching products",
-      };
-    }
-    return { isError: false, data: result.data };
-  } catch (error) {
-    return { isError: true };
+export const fetchProductById = async(id:any)=>{
+  try{
+      const result: any = await productRepository.fetchProductById(id);
+      if(!result){
+          throw{
+              statusCode: 400,
+              customMessage: "Some error occured while fetching products"
+          }
+      }
+      console.log(result, "from controller")
+      return{isError: false, data: result.data}
+  }catch(error){
+      return{ isError: true}
   }
-};
+}
 
 export const fetchProductByCategoryId = async (id: string) => {
   try {

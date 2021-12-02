@@ -107,4 +107,24 @@ router.put("/", async (req: Request, res: Response, next: NextFunction) => {
   }
 });
 
+router.get("/:id", async(req: Request, res: Response, next: NextFunction)=>{
+  try{
+    // take id in params
+    const {id} = req.params;
+    const result: any = await categoryController.fetchCategoryById(id)
+    // if result is not received, throw error
+    if(result.isError){
+      throw result.error; 
+    }
+    res.status(200).json({
+      statusCode: 200,
+      customMessage: "category fetched successfully",
+      data: result,
+    })
+  }catch(error){
+    next(error)
+  }
+})
+
+
 export default router;

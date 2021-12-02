@@ -46,17 +46,17 @@ export const fetchProductDetails = async() =>{
  * @param id 
  * @returns 
  */
-export const fetchProductById = async(id: string) =>{
+ export const fetchProductById = async(id: string) =>{
   try{
-    const result = await Product.findById(id)
+    const result = await Product.findOne({_id:id})
     //  .select("_id_type")
+    console.log(result,id, "fetch by idddddddd from product...")
     return {success: true,
       data: result } 
   }catch(error){
     return{ success: false}
   }
 }
-
 /**
  * @description mongoose emthod for fetching category by id
  * @param id 

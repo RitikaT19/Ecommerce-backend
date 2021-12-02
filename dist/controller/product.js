@@ -75,15 +75,14 @@ exports.fetchProduct = () => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.fetchProductById = (id) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        // call repo to fetch product by id
         const result = yield productRepository.fetchProductById(id);
-        // if result is not found, throw error
         if (!result) {
             throw {
                 statusCode: 400,
-                customMessage: "Some error occured while fetching products",
+                customMessage: "Some error occured while fetching products"
             };
         }
+        console.log(result, "from controller");
         return { isError: false, data: result.data };
     }
     catch (error) {

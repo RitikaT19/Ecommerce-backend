@@ -45,22 +45,24 @@ export const fetchCategoryName = async (name: string) => {
  * @description mongoose method for fetching category by category id
  * @returns
  */
- export const fetchCategoryById = async (id: string) => {
-  try {
-    const result = await Category.findById({ id: id });
-    return result;
-  } catch (error) {
-    console.log(error);
+ export const fetchCategoryById = async(id: string) =>{
+  try{
+    const result = await Category.findOne({_id:id})
+    //  .select("_id_type")
+    console.log(result,id, "fetch by idddddddd from product...")
+    return {success: true,
+      data: result } 
+  }catch(error){
+    return{ success: false}
   }
-};
-
+}
 
 /**
  * @description mongoose emthod for deleting category
  * @param id
  * @returns
  */
- export const deleteCategory = async (id: string) => {
+export const deleteCategory = async (id: string) => {
   try {
     const result = await Category.findByIdAndDelete(id);
     return true;

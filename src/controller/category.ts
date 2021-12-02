@@ -79,9 +79,25 @@ export const updateCategory = async (categoryDetails: any) => {
   }
 };
 
+export const fetchCategoryById = async(id:any)=>{
+  try{
+      const result: any = await categoryRepository.fetchCategoryById(id);
+      if(!result){
+          throw{
+              statusCode: 400,
+              customMessage: "Some error occured while fetching category"
+          }
+      }
+      console.log(result, "from controller")
+      return{isError: false, data: result.data}
+  }catch(error){
+      return{ isError: true}
+  }
+}
 export default {
   createCategory,
   fetchCategory,
   deleteCategory,
   updateCategory,
+  fetchCategoryById
 };
