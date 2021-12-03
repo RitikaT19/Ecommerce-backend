@@ -35,7 +35,6 @@ exports.adminAdded = (adminDetails) => __awaiter(void 0, void 0, void 0, functio
         yield user_1.User.create({
             firstName: adminDetails.firstName,
             lastName: adminDetails.lastName,
-            username: Math.random().toString(),
             email: adminDetails.email,
             password: adminDetails.password,
             role: "admin",

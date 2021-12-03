@@ -25,7 +25,6 @@ export const adminAdded = async (adminDetails: IAddUser) => {
     await User.create({
       firstName: adminDetails.firstName,
       lastName: adminDetails.lastName,
-      username: Math.random().toString(),
       email: adminDetails.email,
       password: adminDetails.password,
       role: "admin",

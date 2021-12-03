@@ -35,7 +35,6 @@ exports.userAdded = (userDetails) => __awaiter(void 0, void 0, void 0, function*
         yield user_1.User.create({
             firstName: userDetails.firstName,
             lastName: userDetails.lastName,
-            username: Math.random().toString(),
             email: userDetails.email,
             password: userDetails.password,
         });

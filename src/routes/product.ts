@@ -14,7 +14,6 @@ router.post(
         price: req.body.price,
         quantity: req.body.quantity,
         category: req.body.category,
-        productPicture: req.file,
         createdBy: req.user._id
       };
 

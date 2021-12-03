@@ -24,7 +24,6 @@ router.post("/", helperFile_1.authenticateToken, (req, res, next) => __awaiter(v
             price: req.body.price,
             quantity: req.body.quantity,
             category: req.body.category,
-            productPicture: req.file,
             createdBy: req.user._id
         };
         // call controller

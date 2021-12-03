@@ -24,7 +24,6 @@ export const userAdded = async (userDetails: IAddUser) => {
     await User.create({
       firstName: userDetails.firstName,
       lastName: userDetails.lastName,
-      username: Math.random().toString(),
       email: userDetails.email,
       password: userDetails.password,
     });
